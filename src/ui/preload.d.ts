@@ -1,5 +1,5 @@
-import { IPCCombat } from '@common/ipc/combat';
+import { IPCLogReader } from '@common/ipc/logReader';
 
 declare global {
-  const combat: IPCCombat;
+  const logReader: IPCLogReader;
 }

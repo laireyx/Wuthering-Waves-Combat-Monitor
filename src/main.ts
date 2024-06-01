@@ -39,7 +39,7 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 app.on('ready', async () => {
-  await registerModules(['combat']);
+  await registerModules(['logReader']);
   createWindow();
 });
 

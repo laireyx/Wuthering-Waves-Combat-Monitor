@@ -11,7 +11,7 @@ export default function CombatMonitor() {
     setTimeout(
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async () => {
-        const { data, position } = await combat.read(
+        const { data, position } = await logReader.read(
           `${gameDir}\\Client\\Saved\\Logs\\Client.log`,
           lastReadPos,
         );

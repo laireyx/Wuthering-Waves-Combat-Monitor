@@ -5,4 +5,4 @@ import { contextBridge, ipcRenderer } from 'electron';
 
 import { exposeModules } from './ipc';
 
-void exposeModules(contextBridge, ipcRenderer, ['combat']);
+void exposeModules(contextBridge, ipcRenderer, ['logReader']);
