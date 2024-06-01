@@ -1,14 +1,18 @@
 import { ipcMain, ContextBridge, IpcRenderer } from 'electron';
-import { DecoratedModule, HandlerList } from './types';
+
 import { propIpcHandlers, propModuleName } from './symbols';
+import { DecoratedModule, InvokeHandler, InvokeHandlerList } from './types';
 
 export function registerModule(module: DecoratedModule) {
-  const ipcHandlers: HandlerList = Reflect.getMetadata(propIpcHandlers, module);
+  const ipcHandlers = Reflect.getMetadata(
+    propIpcHandlers,
+    module,
+  ) as InvokeHandlerList;
 
   for (const [messageName, handler] of ipcHandlers.entries()) {
     ipcMain.handle(
       `${module[propModuleName]}:${messageName}`,
-      (_, ...args: any[]) => handler(...args),
+      (_, ...args: unknown[]) => handler(...args),
     );
   }
 }
@@ -18,12 +22,15 @@ export function exposeModule(
   contextBridge: ContextBridge,
   ipcRenderer: IpcRenderer,
 ) {
-  const ipcHandlers: HandlerList = Reflect.getMetadata(propIpcHandlers, module);
+  const ipcHandlers = Reflect.getMetadata(
+    propIpcHandlers,
+    module,
+  ) as InvokeHandlerList;
 
-  const expObj: Record<string, (...args: any[]) => any> = {};
+  const expObj: Record<string, InvokeHandler> = {};
 
   for (const messageName of ipcHandlers.keys()) {
-    expObj[messageName] = (...args: any[]) =>
+    expObj[messageName] = (...args: unknown[]) =>
       ipcRenderer.invoke(`${module[propModuleName]}:${messageName}`, ...args);
   }
 

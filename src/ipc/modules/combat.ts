@@ -1,14 +1,22 @@
+import { open } from 'node:fs/promises';
+
 import { IPCCombat } from '@common/ipc/combat';
-import { Handler, Module } from '../utils/decorators';
-import { readFile } from 'node:fs/promises';
 import { CombatData } from '@common/schema/combat';
+
+import { Handler, Module } from '../utils/decorators';
 
 @Module('combat')
 export default class IO implements IPCCombat {
   @Handler('read')
-  async read(filename: string, position: number = 0) {
-    const rawData = await readFile(filename, { encoding: 'utf-8' });
-    const lines = rawData.split(/[\r\n]+/);
+  async read(filename: string, position = 0) {
+    const fd = await open(filename);
+    const { buffer, bytesRead } = await fd.read({
+      buffer: Buffer.alloc(0xffffff),
+      position,
+    });
+    await fd.close();
+
+    const lines = buffer.toString('utf-8').split(/[\r\n]+/);
 
     const combatData = lines
       .map((combatLine) => {
@@ -28,6 +36,6 @@ export default class IO implements IPCCombat {
           !!nullableData,
       );
 
-    return combatData;
+    return { data: combatData, position: position + bytesRead };
   }
 }

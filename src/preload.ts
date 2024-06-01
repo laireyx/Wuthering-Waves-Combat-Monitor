@@ -2,6 +2,7 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import { contextBridge, ipcRenderer } from 'electron';
+
 import { exposeModules } from './ipc';
 
-exposeModules(contextBridge, ipcRenderer, ['combat']);
+void exposeModules(contextBridge, ipcRenderer, ['combat']);

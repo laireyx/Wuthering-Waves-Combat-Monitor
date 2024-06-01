@@ -1,9 +1,13 @@
-import { exposeModule, registerModule } from './utils/bridge';
 import { ContextBridge, IpcRenderer } from 'electron';
+
+import { exposeModule, registerModule } from './utils/bridge';
+import { DecoratedModule } from './utils/types';
 
 export async function registerModules(moduleNames: string[]) {
   for (const filename of moduleNames) {
-    const { default: Module } = await import(`./modules/${filename}.ts`);
+    const { default: Module } = (await import(`./modules/${filename}.ts`)) as {
+      default: new () => DecoratedModule;
+    };
 
     registerModule(new Module());
   }
@@ -17,7 +21,9 @@ export async function exposeModules(
   moduleNames: string[],
 ) {
   for (const filename of moduleNames) {
-    const { default: Module } = await import(`./modules/${filename}.ts`);
+    const { default: Module } = (await import(`./modules/${filename}.ts`)) as {
+      default: new () => DecoratedModule;
+    };
 
     exposeModule(new Module(), contextBridge, ipcRenderer);
   }

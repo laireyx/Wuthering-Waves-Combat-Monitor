@@ -1,15 +1,37 @@
-:root {
-  margin: 0;
-}
-
-html {
-  background-color: #000;
+html,
+body {
+  height: 100%;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif;
 
-  margin: auto;
+  margin: 0;
   color: rgba(255, 255, 255, 0.8);
+}
+
+#background {
+  border: none;
+  border-radius: 12px;
+
+  width: 100%;
+  height: 100%;
+
+  background: no-repeat url('./assets/encore.jpg');
+  background-size: cover;
+  background-position: center center;
+
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  filter: brightness(0.25);
+  opacity: 0.9;
+
+  z-index: -1;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
 }

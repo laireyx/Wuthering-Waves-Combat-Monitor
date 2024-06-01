@@ -4,4 +4,5 @@ export interface DecoratedModule {
   [propModuleName]: string;
 }
 
-export type HandlerList = Map<string, (...args: any[]) => Promise<any>>;
+export type InvokeHandler = (...args: unknown[]) => Promise<unknown>;
+export type InvokeHandlerList = Map<string, InvokeHandler>;
