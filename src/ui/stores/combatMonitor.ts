@@ -18,9 +18,11 @@ interface CombatMonitorStore {
 
   setFightStatus: (opts: { inFight: boolean; timestamp: number }) => void;
   appendPartLog: (log: CombatInfoLog) => void;
+
+  fightDuration: () => number;
 }
 
-const useCombatMonitorStore = create<CombatMonitorStore>((set) => ({
+const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
   inFight: false,
 
   fightStart: -1,
@@ -30,6 +32,7 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set) => ({
   totalDamage: 0,
 
   setFightStatus: ({ inFight, timestamp }) => {
+    console.log(inFight, timestamp);
     if (inFight === true) {
       set({
         inFight,
@@ -45,7 +48,6 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set) => ({
 
   appendPartLog: ({ data }) => {
     if (data.type !== 'Part') return;
-    if (data.tagName.endsWith(`弱点`)) return;
 
     const uniqName = `${data.entity.id}:${data.entity.name}:${data.tagName}`;
 
@@ -67,6 +69,14 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set) => ({
         fightParts: { ...fightParts },
       };
     });
+  },
+
+  fightDuration: () => {
+    const { inFight, fightStart, fightEnd } = get();
+
+    console.log(fightEnd, fightStart);
+
+    return ((inFight ? Date.now() : fightEnd) - fightStart) / 1000;
   },
 }));
 

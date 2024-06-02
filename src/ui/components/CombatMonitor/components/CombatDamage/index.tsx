@@ -1,21 +1,34 @@
+import { useEffect, useState } from 'react';
+
 import Vertical from 'src/ui/components/Vertical';
 import useCombatMonitorStore from 'src/ui/stores/combatMonitor';
 
 import { combatDamageStyle } from './index.css';
 
 export default function CombatDamage() {
-  const { totalDamage, fightStart, fightEnd, fightParts } =
+  const { inFight, totalDamage, fightParts, fightDuration } =
     useCombatMonitorStore();
 
   const partNames = Object.keys(fightParts);
+  const [dps, setDps] = useState(0);
 
   console.log(fightParts);
 
+  useEffect(() => {
+    if (inFight) {
+      setTimeout(() => setDps(totalDamage / fightDuration()));
+    } else if (totalDamage > 0 && dps === 0) {
+      setDps(totalDamage / fightDuration());
+    }
+  }, [dps, fightDuration, inFight, totalDamage]);
+
   return (
     <Vertical>
+      Duration: {fightDuration()}
+      <br />
       Total Damage: {totalDamage}
       <br />
-      DPS: {totalDamage / ((fightEnd - fightStart) / 1000)}
+      DPS: {dps}
       <br />
       <ul className={combatDamageStyle}>
         {partNames.map((partName) => (
