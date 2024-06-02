@@ -12,8 +12,6 @@ export default function CombatDamage() {
   const partNames = Object.keys(fightParts);
   const [dps, setDps] = useState(0);
 
-  console.log(fightParts);
-
   useEffect(() => {
     if (inFight) {
       setTimeout(() => setDps(totalDamage / fightDuration()));

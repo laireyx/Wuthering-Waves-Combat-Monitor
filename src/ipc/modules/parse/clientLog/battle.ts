@@ -1,6 +1,6 @@
 import { BattleLog } from '@common/types/logReader';
 
-import { LogLineMatchResult } from '../types';
+import { LogLineMatchResult } from '../../types';
 
 export default function parseBattleLog({
   timestamp,

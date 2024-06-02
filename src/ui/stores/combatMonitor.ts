@@ -32,7 +32,6 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
   totalDamage: 0,
 
   setFightStatus: ({ inFight, timestamp }) => {
-    console.log(inFight, timestamp);
     if (inFight === true) {
       set({
         inFight,
@@ -73,8 +72,6 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
 
   fightDuration: () => {
     const { inFight, fightStart, fightEnd } = get();
-
-    console.log(fightEnd, fightStart);
 
     return ((inFight ? Date.now() : fightEnd) - fightStart) / 1000;
   },

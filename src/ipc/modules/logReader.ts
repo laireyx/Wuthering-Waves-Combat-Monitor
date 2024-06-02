@@ -3,8 +3,8 @@ import { open } from 'node:fs/promises';
 import { IPCLogReader, IPCLogReaderReadOpts } from '@common/ipc/logReader';
 import { ClientLog } from '@common/types/logReader';
 
-import parseBattleLog from './parseLogs/battle';
-import parseCombatInfoLog from './parseLogs/combatInfo';
+import parseBattleLog from './parse/clientLog/battle';
+import parseCombatInfoLog from './parse/clientLog/combatInfo';
 import { LogLineMatchResult } from './types';
 import { Handler, Module } from '../utils/decorators';
 
@@ -28,10 +28,16 @@ export default class IO implements IPCLogReader {
     omitUnknownLogs = true,
   }: IPCLogReaderReadOpts) {
     const fd = await open(filename);
+
+    // Check if the log file is rotated.
+    const { size } = await fd.stat();
+    if (size < position) position = 0;
+
     const { buffer, bytesRead } = await fd.read({
       buffer: Buffer.alloc(0xffffff),
       position,
     });
+
     await fd.close();
 
     const lines = buffer.toString('utf-8').split(/[\r\n]+/);

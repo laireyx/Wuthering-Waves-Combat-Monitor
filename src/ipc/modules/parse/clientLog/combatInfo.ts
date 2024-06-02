@@ -1,7 +1,7 @@
 import { CombatInfoLog } from '@common/types/logReader';
 
-import parseEntity from '../parse/entity/parseEntity';
-import { LogLineMatchResult } from '../types';
+import { LogLineMatchResult } from '../../types';
+import parseEntity from '../entity/parseEntity';
 
 function validatePartMatchResult(
   matchGroup?: Record<string, string>,
