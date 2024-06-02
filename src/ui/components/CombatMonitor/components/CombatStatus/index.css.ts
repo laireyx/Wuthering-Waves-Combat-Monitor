@@ -6,3 +6,8 @@ export const combatLogStyle = style({
 
   overflowY: 'auto',
 });
+
+export const numberStyle = style({
+  color: '#c00',
+  fontWeight: 'bold',
+});
