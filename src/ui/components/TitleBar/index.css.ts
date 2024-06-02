@@ -35,6 +35,7 @@ export const titleButtonStyle = style({
   margin: 4,
 
   WebkitAppRegion: 'no-drag',
+  cursor: 'pointer',
 });
 
 export const titleStyle = style({

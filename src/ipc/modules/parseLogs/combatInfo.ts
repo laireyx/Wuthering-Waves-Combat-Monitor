@@ -14,6 +14,7 @@ function validatePartMatchResult(
 
 export default function parseCombatInfoLog({
   timestamp,
+  seq,
   msg,
 }: LogLineMatchResult): CombatInfoLog | undefined {
   if (msg.startsWith('[Ai]')) {
@@ -24,6 +25,7 @@ export default function parseCombatInfoLog({
     return {
       timestamp,
       type: 'CombatInfo',
+      seq: parseInt(seq),
       msg,
       data: {
         type: 'Ai',
@@ -41,6 +43,7 @@ export default function parseCombatInfoLog({
     return {
       timestamp,
       type: 'CombatInfo',
+      seq: parseInt(seq),
       msg,
       data: {
         type: 'Buff',
@@ -53,7 +56,7 @@ export default function parseCombatInfoLog({
   if (msg.startsWith('[Part]')) {
     const { groups } =
       msg.match(
-        /\[TagName:(?<tagName>.*?)\]\[Activated: true\]\[LifeValue: (?<lifeValue>.*?)\]/,
+        /UpdatePartInfo \[TagName: (?<tagName>.*?)\]\[Activated: .*?\]\[LifeValue: (?<lifeValue>.*?)\]/,
       ) ?? {};
     const entity = parseEntity(msg);
 
@@ -63,6 +66,7 @@ export default function parseCombatInfoLog({
     return {
       timestamp,
       type: 'CombatInfo',
+      seq: parseInt(seq),
       msg,
       data: {
         type: 'Part',
@@ -77,15 +81,6 @@ export default function parseCombatInfoLog({
    * @todo implement Skill parsing
    * [Skill][EntityId:10534:Player:BP_Anke_C_2147405541] CharacterSkillComponent.RequestEndSkill [结束技能ID: 200001][结束技能名称: 变身幻象][Reason: GameplayAbilityVisionMorph.MorphEnd][CanInterrupt: false][ReadyEnd: false]
    */
-
-  return {
-    timestamp,
-    type: 'CombatInfo',
-    msg,
-    data: {
-      type: 'unknown',
-    },
-  };
 }
 
 // [DeathComponent]执行角色死亡逻辑 [Entity: [object WorldEntity(Id=232456193)]][PbDataId: 109800112]

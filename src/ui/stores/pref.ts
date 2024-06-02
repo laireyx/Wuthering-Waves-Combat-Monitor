@@ -7,9 +7,14 @@ interface PrefStore {
 }
 
 const usePrefStore = create<PrefStore>((set) => ({
-  gameDir: 'D:\\Wuthering Waves\\Wuthering Waves Game',
+  gameDir:
+    localStorage.getItem('gameDir') ??
+    'D:\\Wuthering Waves\\Wuthering Waves Game',
 
-  setGameDir: (gameDir) => set({ gameDir }),
+  setGameDir: (gameDir) => {
+    localStorage.setItem('gameDir', gameDir);
+    set({ gameDir });
+  },
 }));
 
 export default usePrefStore;

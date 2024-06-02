@@ -1,11 +1,7 @@
-import { ClientLog } from '../ClientLog';
+import { ClientLogImpl } from '../ClientLog';
 import { Entity } from '../Entity';
 
 /** Data */
-export interface CombatInfoLogData {
-  type: 'Ai' | 'Buff' | 'Part' | 'Skill' | (string & Record<never, never>);
-}
-
 export interface CombatInfoLogDataAi {
   type: 'Ai';
 
@@ -21,7 +17,7 @@ export interface CombatInfoLogDataPart {
   type: 'Part';
 
   entity: Entity;
-  /** @description `弱点` means hp, I guess. */
+  /** @description `弱点` means shield, I guess. */
   tagName: string;
   lifeValue: number;
 }
@@ -30,8 +26,12 @@ export interface CombatInfoLogDataSkill {
   type: 'Skill';
 }
 
+export interface CombatInfoLogDataUnknown {
+  type: 'Unknown';
+}
+
 /** Log */
-export interface CombatInfoLog extends ClientLog {
+export interface CombatInfoLog extends ClientLogImpl {
   type: 'CombatInfo';
 
   data:
@@ -39,5 +39,5 @@ export interface CombatInfoLog extends ClientLog {
     | CombatInfoLogDataBuff
     | CombatInfoLogDataPart
     | CombatInfoLogDataSkill
-    | CombatInfoLogData;
+    | CombatInfoLogDataUnknown;
 }

@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 
+import CombatDamage from './components/CombatDamage';
+import CombatStatus from './components/CombatStatus';
+import usePushLog from './hooks/usePushLog';
 import usePrefStore from '../../stores/pref';
 import Vertical from '../Vertical';
 
@@ -7,21 +10,30 @@ export default function CombatMonitor() {
   const { gameDir } = usePrefStore();
   const [lastReadPos, setLastReadPos] = useState(0);
 
+  const pushLog = usePushLog();
+
   useEffect(() => {
-    setTimeout(
+    const intervalHandle = setInterval(
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async () => {
-        const { data, position } = await logReader.read(
-          `${gameDir}\\Client\\Saved\\Logs\\Client.log`,
-          lastReadPos,
-        );
+        const { data, position } = await logReader.read({
+          filename: `${gameDir}\\Client\\Saved\\Logs\\Client.log`,
+          position: lastReadPos,
+        });
 
-        console.log(data);
+        data.forEach(pushLog);
         setLastReadPos(position);
       },
       500,
     );
-  }, [gameDir, lastReadPos]);
 
-  return <Vertical></Vertical>;
+    return () => clearInterval(intervalHandle);
+  }, [gameDir, lastReadPos, pushLog]);
+
+  return (
+    <Vertical>
+      <CombatStatus />
+      <CombatDamage />
+    </Vertical>
+  );
 }

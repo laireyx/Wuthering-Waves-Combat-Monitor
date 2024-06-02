@@ -13,7 +13,7 @@ function validateMatchResult(
 export default function parseEntity(msg: string) {
   const { groups } =
     msg.match(
-      /\[Ai\]\[EntityId:(?<id>.*):(?<type>(Animal|Npc|Player|Vision|.*?)):(?<name>.*?)\]/,
+      /\[EntityId:(?<id>.*?):(?<type>Animal|Npc|Player|Vision|Monster|.*?):(?<name>[^\]]*?)\]/,
     ) ?? {};
 
   if (!validateMatchResult(groups)) return;

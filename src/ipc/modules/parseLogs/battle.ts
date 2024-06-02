@@ -4,6 +4,7 @@ import { LogLineMatchResult } from '../types';
 
 export default function parseBattleLog({
   timestamp,
+  seq,
   msg,
 }: LogLineMatchResult): BattleLog | undefined {
   if (msg.startsWith('NotifyInFight')) {
@@ -15,6 +16,7 @@ export default function parseBattleLog({
     return {
       timestamp,
       type: 'Battle',
+      seq: parseInt(seq),
       msg,
       data: {
         type: 'NotifyInFight',
@@ -34,6 +36,7 @@ export default function parseBattleLog({
     return {
       timestamp,
       type: 'Battle',
+      seq: parseInt(seq),
       msg,
       data: {
         type: 'DeathComponent',
@@ -41,15 +44,6 @@ export default function parseBattleLog({
       },
     };
   }
-
-  return {
-    timestamp,
-    type: 'Battle',
-    msg,
-    data: {
-      type: 'unknown',
-    },
-  };
 }
 
 // [DeathComponent]执行角色死亡逻辑 [Entity: [object WorldEntity(Id=232456193)]][PbDataId: 109800112]

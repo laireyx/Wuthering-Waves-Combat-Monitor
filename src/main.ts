@@ -20,6 +20,7 @@ const createWindow = () => {
     frame: false,
     transparent: true,
   });
+  mainWindow.setAlwaysOnTop(true, 'pop-up-menu');
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
@@ -32,6 +33,10 @@ const createWindow = () => {
 
   // Open the DevTools.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) mainWindow.webContents.openDevTools();
+
+  mainWindow.focus();
+  mainWindow.on('blur', () => mainWindow.setIgnoreMouseEvents(true));
+  mainWindow.on('focus', () => mainWindow.setIgnoreMouseEvents(false));
 };
 
 // This method will be called when Electron has finished

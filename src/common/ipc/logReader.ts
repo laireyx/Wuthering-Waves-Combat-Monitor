@@ -1,5 +1,11 @@
 import { LogReadResult } from '@common/types/logReader';
 
+export interface IPCLogReaderReadOpts {
+  filename: string;
+  position?: number;
+  omitUnknownLogs?: boolean;
+}
+
 export interface IPCLogReader {
-  read(filename: string, position?: number): Promise<LogReadResult>;
+  read(opts: IPCLogReaderReadOpts): Promise<LogReadResult>;
 }

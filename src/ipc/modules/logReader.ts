@@ -1,6 +1,6 @@
 import { open } from 'node:fs/promises';
 
-import { IPCLogReader } from '@common/ipc/logReader';
+import { IPCLogReader, IPCLogReaderReadOpts } from '@common/ipc/logReader';
 import { ClientLog } from '@common/types/logReader';
 
 import parseBattleLog from './parseLogs/battle';
@@ -11,13 +11,22 @@ import { Handler, Module } from '../utils/decorators';
 function validateMatchResult(
   matchGroup?: Record<string, string>,
 ): matchGroup is LogLineMatchResult {
-  return !!(matchGroup?.timestamp && matchGroup?.type && matchGroup?.msg);
+  return !!(
+    matchGroup?.timestamp &&
+    matchGroup?.type &&
+    matchGroup?.seq &&
+    matchGroup?.msg
+  );
 }
 
 @Module('logReader')
 export default class IO implements IPCLogReader {
   @Handler('read')
-  async read(filename: string, position = 0) {
+  async read({
+    filename,
+    position = 0,
+    omitUnknownLogs = true,
+  }: IPCLogReaderReadOpts) {
     const fd = await open(filename);
     const { buffer, bytesRead } = await fd.read({
       buffer: Buffer.alloc(0xffffff),
@@ -31,7 +40,7 @@ export default class IO implements IPCLogReader {
       .map((combatLine): ClientLog | undefined => {
         const { groups } =
           combatLine.match(
-            /^\[(?<timestamp>.*?)\]\[.*?\]\[GameThread\]Puerts:.*?\[\d*?\]\[I\]\[(?<type>.*?)\]\[.*?\]\[.*?\]\[.*?\] (?<msg>.*)$/,
+            /^\[(?<timestamp>.*?)\]\[.*?\]\[GameThread\]Puerts:.*?\[(?<seq>\d*?)\]\[I\]\[(?<type>.*?)\]\[.*?\]\[.*?\]\[.*?\] (?<msg>.*)$/,
           ) ?? {};
 
         if (!validateMatchResult(groups)) return;
@@ -48,6 +57,11 @@ export default class IO implements IPCLogReader {
       })
       .filter((nullableData): nullableData is ClientLog => !!nullableData);
 
-    return { data: combatData, position: position + bytesRead };
+    return {
+      data: omitUnknownLogs
+        ? combatData.filter((log) => log.data?.type !== 'Unknown')
+        : combatData,
+      position: position + bytesRead,
+    };
   }
 }

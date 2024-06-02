@@ -1,5 +1,7 @@
 import { titleButtonStyle } from '../index.css';
 
 export default function TitleButton() {
-  return <button className={titleButtonStyle}></button>;
+  return (
+    <span className={titleButtonStyle} onClick={() => window.close()}></span>
+  );
 }

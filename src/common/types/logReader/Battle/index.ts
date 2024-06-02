@@ -1,23 +1,26 @@
-import { ClientLog } from '../ClientLog';
+import { ClientLogImpl } from '../ClientLog';
 
 /** Data */
-export interface BattleLogData {
-  type: 'NotifyInFight' | 'DeathComponent' | (string & Record<never, never>);
-}
-
-export interface BattleLogNotifyInFight extends BattleLogData {
+export interface BattleLogDataNotifyInFight {
   type: 'NotifyInFight';
   inFight: boolean;
 }
 
-export interface BattleLogDeathComponent extends BattleLogData {
+export interface BattleLogDataDeathComponent {
   type: 'DeathComponent';
   entityId: number;
 }
 
+export interface BattleLogDataUnknown {
+  type: 'Unknown';
+}
+
 /** Log */
-export interface BattleLog extends ClientLog {
+export interface BattleLog extends ClientLogImpl {
   type: 'Battle';
 
-  data: BattleLogNotifyInFight | BattleLogDeathComponent | BattleLogData;
+  data:
+    | BattleLogDataNotifyInFight
+    | BattleLogDataDeathComponent
+    | BattleLogDataUnknown;
 }
