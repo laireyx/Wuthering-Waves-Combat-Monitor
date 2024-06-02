@@ -4,7 +4,7 @@ import CombatDamage from './components/CombatDamage';
 import CombatStatus from './components/CombatStatus';
 import usePushLog from './hooks/usePushLog';
 import usePrefStore from '../../stores/pref';
-import Vertical from '../Vertical';
+import Card from '../Card';
 
 export default function CombatMonitor() {
   const { gameDir } = usePrefStore();
@@ -31,9 +31,9 @@ export default function CombatMonitor() {
   }, [gameDir, lastReadPos, pushLog]);
 
   return (
-    <Vertical>
+    <Card>
       <CombatStatus />
       <CombatDamage />
-    </Vertical>
+    </Card>
   );
 }

@@ -1,29 +1,29 @@
+import { useState, useEffect } from 'react';
+
 import useCombatMonitorStore from 'src/ui/stores/combatMonitor';
 
 export default function CombatStatus() {
-  const { inFight, fightStart, fightEnd } = useCombatMonitorStore();
+  const { inFight, fightDuration, totalDamage } = useCombatMonitorStore();
+
+  const [dps, setDps] = useState(0);
+
+  useEffect(() => {
+    if (inFight) {
+      setTimeout(() => setDps(totalDamage / fightDuration()));
+    } else if (totalDamage > 0 && dps === 0) {
+      setDps(totalDamage / fightDuration());
+    }
+  }, [dps, fightDuration, inFight, totalDamage]);
 
   return (
     <div>
       Current Status: {inFight ? 'In Fight' : 'Idle'}
       <br />
-      {fightStart > 0 && fightEnd > 0 && (
-        <>
-          {new Date(fightStart).toLocaleTimeString('ko-KR', {
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-          })}
-          -
-          {new Date(fightEnd).toLocaleTimeString('ko-KR', {
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-          })}
-        </>
-      )}
+      Duration: {fightDuration()}
+      <br />
+      Total Damage: {totalDamage}
+      <br />
+      DPS: {dps}
     </div>
   );
 }

@@ -16,6 +16,11 @@ declare module '@vanilla-extract/css' {
 export const titlebarStyle = style({
   WebkitAppRegion: 'drag',
 
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+
   borderTopLeftRadius: 12,
   borderTopRightRadius: 12,
 
