@@ -35,8 +35,14 @@ const createWindow = () => {
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) mainWindow.webContents.openDevTools();
 
   mainWindow.focus();
-  mainWindow.on('blur', () => mainWindow.setIgnoreMouseEvents(true));
-  mainWindow.on('focus', () => mainWindow.setIgnoreMouseEvents(false));
+  mainWindow.on('blur', () => {
+    mainWindow.setIgnoreMouseEvents(true);
+    mainWindow.setOpacity(0.5);
+  });
+  mainWindow.on('focus', () => {
+    mainWindow.setIgnoreMouseEvents(false);
+    mainWindow.setOpacity(1.0);
+  });
 };
 
 // This method will be called when Electron has finished

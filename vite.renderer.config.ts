@@ -24,7 +24,7 @@ export default defineConfig((env) => {
       pluginExposeRenderer(name),
       react(),
       tsconfigPaths({
-        projects: ['.', './src/ui'],
+        projects: ['.'],
       }),
       vanillaExtractPlugin(),
     ],
