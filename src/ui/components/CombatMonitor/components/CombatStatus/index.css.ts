@@ -1,13 +1,18 @@
 import { style } from '@vanilla-extract/css';
 
-export const combatLogStyle = style({
-  flex: '1 0 auto',
-  paddingInline: 0,
+export const combatStatusStyle = style({
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
 
-  overflowY: 'auto',
+  gap: '4px',
 });
 
-export const numberStyle = style({
+export const fightStatusInFightStyle = style({
+  color: '#c77',
+});
+
+export const damageStyle = style({
   color: '#c00',
   fontWeight: 'bold',
 });

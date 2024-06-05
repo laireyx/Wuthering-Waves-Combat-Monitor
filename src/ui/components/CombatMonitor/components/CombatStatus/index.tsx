@@ -3,7 +3,14 @@ import { useState, useEffect } from 'react';
 import useCombatMonitorStore from 'src/ui/stores/combatMonitor';
 import fillZero from 'src/ui/utils/fillZero';
 
-import { numberStyle } from './index.css';
+import Indicator from './Indicator';
+import IndicatorCaption from './Indicator/Caption';
+
+import {
+  combatStatusStyle,
+  damageStyle,
+  fightStatusInFightStyle,
+} from './index.css';
 
 export default function CombatStatus() {
   const { inFight, fightDuration, totalDamage } = useCombatMonitorStore();
@@ -22,14 +29,22 @@ export default function CombatStatus() {
   }, [dps, fightDuration, inFight, totalDamage]);
 
   return (
-    <div>
-      Current Status: {inFight ? 'In Fight' : 'Idle'}
-      <br />
-      Duration: {durationStr}
-      <br />
-      Total Damage: <span className={numberStyle}>{totalDamage}</span>
-      <br />
-      DPS: <span className={numberStyle}>{Math.round(dps)}</span>
+    <div className={combatStatusStyle}>
+      <Indicator className={inFight ? fightStatusInFightStyle : ''}>
+        <IndicatorCaption>Status</IndicatorCaption>
+        {inFight ? 'Fight' : 'Idle'}
+      </Indicator>
+      <Indicator>
+        <IndicatorCaption>Duration</IndicatorCaption> {durationStr}
+      </Indicator>
+      <Indicator>
+        <IndicatorCaption>Total Dmg</IndicatorCaption>
+        <span className={damageStyle}>{totalDamage}</span>
+      </Indicator>
+      <Indicator>
+        <IndicatorCaption>DPS</IndicatorCaption>
+        <span className={damageStyle}>{Math.round(dps)}</span>
+      </Indicator>
     </div>
   );
 }

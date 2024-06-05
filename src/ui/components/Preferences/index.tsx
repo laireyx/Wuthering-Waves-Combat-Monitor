@@ -9,7 +9,6 @@ export default function Preferences() {
   return (
     <Card>
       <Vertical>
-        Game Directory
         <TextInput
           value={gameDir}
           onChange={(e) => setGameDir(e.target.value)}

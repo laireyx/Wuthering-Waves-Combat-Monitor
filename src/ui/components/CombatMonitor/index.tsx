@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import CombatDamage from './components/CombatDamage';
 import CombatStatus from './components/CombatStatus';
 import usePushLog from './hooks/usePushLog';
 import usePrefStore from '../../stores/pref';
@@ -33,7 +32,6 @@ export default function CombatMonitor() {
   return (
     <Card>
       <CombatStatus />
-      <CombatDamage />
     </Card>
   );
 }
