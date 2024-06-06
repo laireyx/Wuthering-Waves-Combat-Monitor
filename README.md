@@ -2,7 +2,7 @@
 
 ## Screenshot
 
-[Example screenshot](./example.png)
+![Example screenshot](./example.png)
 
 ## How it works?
 
