@@ -1,5 +1,9 @@
 # Wuthering Waves Combat Monitor
 
+## Screenshot
+
+[Example screenshot](./example.png)
+
 ## How it works?
 
 _Credits: [MorphTheMoth/WuwaDpsMeter](https://github.com/MorphTheMoth/WuwaDpsMeter) gave me an idea of tracking the mob hp._
