@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 
+import CombatBuffs from './components/CombatBuffs';
 import CombatStatus from './components/CombatStatus';
 import usePushLog from './hooks/usePushLog';
 import usePrefStore from '../../stores/pref';
 import Card from '../Card';
+import Vertical from '../Vertical';
+
+import { combatMonitorStyle } from './index.css';
 
 export default function CombatMonitor() {
   const { gameDir } = usePrefStore();
@@ -31,7 +35,10 @@ export default function CombatMonitor() {
 
   return (
     <Card>
-      <CombatStatus />
+      <Vertical className={combatMonitorStyle}>
+        <CombatStatus />
+        <CombatBuffs />
+      </Vertical>
     </Card>
   );
 }

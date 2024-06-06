@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import useCombatMonitorStore from 'src/ui/stores/combatMonitor';
 import fillZero from 'src/ui/utils/fillZero';
 
-import Indicator from './Indicator';
-import IndicatorCaption from './Indicator/Caption';
+import Indicator from '../Indicator';
+import IndicatorCaption from '../Indicator/Caption';
 
 import {
   combatStatusStyle,
@@ -18,15 +18,13 @@ export default function CombatStatus() {
   const [dps, setDps] = useState(0);
 
   const durationInSec = fightDuration();
-  const durationStr = `${fillZero(Math.round(durationInSec / 60), 2)}:${fillZero(Math.round(durationInSec) % 60, 2)}`;
+  const durationStr = `${fillZero(Math.floor(durationInSec / 60), 2)}:${fillZero(Math.floor(durationInSec) % 60, 2)}`;
 
   useEffect(() => {
     if (inFight) {
-      setTimeout(() => setDps(totalDamage / fightDuration()));
-    } else if (totalDamage > 0 && dps === 0) {
-      setDps(totalDamage / fightDuration());
+      setDps(totalDamage / durationInSec);
     }
-  }, [dps, fightDuration, inFight, totalDamage]);
+  }, [inFight, totalDamage, durationInSec]);
 
   return (
     <div className={combatStatusStyle}>

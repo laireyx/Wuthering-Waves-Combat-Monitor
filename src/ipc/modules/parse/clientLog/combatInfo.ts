@@ -12,6 +12,24 @@ function validatePartMatchResult(
   return !!(matchGroup?.tagName && matchGroup?.lifeValue);
 }
 
+function validateBuffMatchResult(
+  matchGroup?: Record<string, string>,
+): matchGroup is {
+  /** '添加' means add, '移除' means remove */
+  addOrRemove: '添加' | '移除';
+  buffId: string;
+  buffCreatorId?: string;
+  buffTargetId: string;
+  buffDescription: string;
+} {
+  return !!(
+    matchGroup?.addOrRemove &&
+    matchGroup?.buffId &&
+    matchGroup?.buffTargetId &&
+    matchGroup?.buffDescription
+  );
+}
+
 export default function parseCombatInfoLog({
   timestamp,
   seq,
@@ -35,10 +53,22 @@ export default function parseCombatInfoLog({
   }
 
   if (msg.startsWith('[Buff]')) {
-    const [, buffId] = msg.match(/\[buffId:(.*?)\]/) ?? [];
+    const { groups } =
+      msg.match(
+        /本地(?<addOrRemove>添加|移除)buff \[buffId:(?<buffId>.*?)\](\[创建者id: (?<buffCreatorId>.*?)\])?\[持有者: (?<buffTargetId>.*?)\].*?\[说明: (?<buffDescription>.*?)\]/,
+      ) ?? {};
+
     const entity = parseEntity(msg);
 
-    if (!buffId || !entity) return;
+    if (!validateBuffMatchResult(groups) || !entity) return;
+
+    const {
+      addOrRemove,
+      buffId,
+      buffCreatorId,
+      buffTargetId,
+      buffDescription,
+    } = groups;
 
     return {
       timestamp,
@@ -48,7 +78,11 @@ export default function parseCombatInfoLog({
       data: {
         type: 'Buff',
         entity,
+        addOrRemove: addOrRemove === '添加' ? 'add' : 'remove',
         buffId: parseInt(buffId),
+        buffCreatorId: buffCreatorId ? parseInt(buffCreatorId) : undefined,
+        buffTargetId: parseInt(buffTargetId),
+        buffDescription,
       },
     };
   }

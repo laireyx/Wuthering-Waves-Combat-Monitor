@@ -8,7 +8,7 @@ export default function Indicator({
   ...props
 }: IndicatorProps) {
   return (
-    <span {...props} className={`${indicatorStyle} ${className}`}>
+    <span {...props} className={`${indicatorStyle} ${className ?? ''}`}>
       {children}
     </span>
   );

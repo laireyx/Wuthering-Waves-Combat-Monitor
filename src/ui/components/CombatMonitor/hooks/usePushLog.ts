@@ -3,10 +3,10 @@ import { useCallback } from 'react';
 import { ClientLog } from '@common/types/logReader';
 
 import useCombatMonitorStore from 'src/ui/stores/combatMonitor';
-import parseTimestamp from 'src/ui/utils/parseTimestamp';
 
 export default function usePushLog() {
-  const { setFightStatus, appendPartLog } = useCombatMonitorStore();
+  const { setFightStatus, appendBuffLog, appendPartLog } =
+    useCombatMonitorStore();
 
   const pushLog = useCallback(
     (log: ClientLog) => {
@@ -14,7 +14,7 @@ export default function usePushLog() {
         if (log.data.type === 'NotifyInFight') {
           setFightStatus({
             inFight: log.data.inFight,
-            timestamp: parseTimestamp(log.timestamp),
+            timestamp: log.timestamp,
           });
 
           return;
@@ -28,6 +28,7 @@ export default function usePushLog() {
           return;
         }
         if (log.data.type === 'Buff') {
+          appendBuffLog(log);
           return;
         }
 
@@ -40,7 +41,7 @@ export default function usePushLog() {
         }
       }
     },
-    [setFightStatus, appendPartLog],
+    [setFightStatus, appendBuffLog, appendPartLog],
   );
 
   return pushLog;
