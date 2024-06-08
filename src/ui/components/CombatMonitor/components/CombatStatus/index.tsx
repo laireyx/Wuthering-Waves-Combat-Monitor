@@ -19,7 +19,7 @@ export default function CombatStatus() {
   const [dps, setDps] = useState(0);
 
   const durationInSec = fightDuration();
-  const durationStr = `${fillZero(Math.floor(durationInSec / 60), 2)}:${fillZero(Math.floor(durationInSec) % 60, 2)}`;
+  const durationStr = `${fillZero(Math.floor(durationInSec / 60), 2)}:${fillZero(Math.round(durationInSec) % 60, 2)}`;
 
   useEffect(() => {
     if (inFight) {
@@ -47,7 +47,11 @@ export default function CombatStatus() {
 
       <Indicator>
         <IndicatorCaption>Stagger Count</IndicatorCaption>
-        {staggerCount}
+        {staggerCount > 0 ? staggerCount : '-'}
+      </Indicator>
+      <Indicator>
+        <IndicatorCaption>Stagger Avg</IndicatorCaption>
+        {staggerCount > 0 ? Math.round(fightDuration() / staggerCount) : '-'}s
       </Indicator>
     </div>
   );
