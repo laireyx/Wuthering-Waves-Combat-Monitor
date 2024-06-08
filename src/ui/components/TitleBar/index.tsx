@@ -11,7 +11,7 @@ import configIcon from '../../assets/config.svg';
 import shutdownIcon from '../../assets/shutdown.svg';
 
 export default function TitleBar() {
-  const { togglePrefOpened: toggleConfigOpened } = useUIStore();
+  const { openPref } = useUIStore();
 
   return (
     <div className={titlebarStyle}>
@@ -19,7 +19,7 @@ export default function TitleBar() {
       <TitleButton
         className={configButtonStyle}
         img={configIcon}
-        onClick={toggleConfigOpened}
+        onClick={openPref}
       />
       <TitleButton
         className={shutdownButtonStyle}

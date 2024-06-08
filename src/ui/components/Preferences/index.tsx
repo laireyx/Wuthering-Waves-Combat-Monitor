@@ -1,40 +1,18 @@
-import { useCallback, useEffect, useRef } from 'react';
-
 import usePrefStore from '../../stores/pref';
 import useUIStore from '../../stores/ui';
 import Card from '../Card';
+import ModalDialog from '../ModalDialog';
 import TextInput from '../TextInput';
 import Vertical from '../Vertical';
 
-import { gamePathInputStyle, preferencesStyle } from './index.css';
+import { gamePathInputStyle } from './index.css';
 
 export default function Preferences() {
-  const { isPrefOpened, togglePrefOpened } = useUIStore();
+  const { isPrefOpened, closePref } = useUIStore();
   const { gamePath, setGamePath } = usePrefStore();
 
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  const closeOnBackdrop = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === e.currentTarget) togglePrefOpened();
-    },
-    [togglePrefOpened],
-  );
-
-  useEffect(() => {
-    if (isPrefOpened) {
-      dialogRef.current?.showModal();
-    } else {
-      dialogRef.current?.close();
-    }
-  }, [isPrefOpened]);
-
   return (
-    <dialog
-      ref={dialogRef}
-      className={preferencesStyle}
-      onClick={closeOnBackdrop}
-    >
+    <ModalDialog isOpened={isPrefOpened} onClose={closePref}>
       <Card>
         <Vertical>
           <TextInput
@@ -46,6 +24,6 @@ export default function Preferences() {
           />
         </Vertical>
       </Card>
-    </dialog>
+    </ModalDialog>
   );
 }
