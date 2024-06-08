@@ -17,6 +17,6 @@ Log file of WW contains a wealth of informations, including life values of the e
 
 ## Credits
 
-_[MorphTheMoth/WuwaDpsMeter](https://github.com/MorphTheMoth/WuwaDpsMeter) gave me an idea of tracking the mob hp._
-_Button icons in the app are from [SVG Repo](https://www.svgrepo.com/)._
-_Background image and executable icon file are from [Official Weibo](https://weibo.com/u/7730797357)._
+- _[MorphTheMoth/WuwaDpsMeter](https://github.com/MorphTheMoth/WuwaDpsMeter) gave me an idea of tracking the mob hp._
+- _Button icons in the app are from [SVG Repo](https://www.svgrepo.com/)._
+- _Background image and executable icon file are from [Official Weibo](https://weibo.com/u/7730797357)._
