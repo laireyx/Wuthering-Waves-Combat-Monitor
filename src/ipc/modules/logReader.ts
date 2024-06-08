@@ -1,5 +1,7 @@
 import { open } from 'node:fs/promises';
 
+import { promisified as regedit } from 'regedit';
+
 import { IPCLogReader, IPCLogReaderReadOpts } from '@common/ipc/logReader';
 import { ClientLog } from '@common/types/logReader';
 
@@ -21,6 +23,29 @@ function validateMatchResult(
 
 @Module('logReader')
 export default class IO implements IPCLogReader {
+  @Handler('resolveGamePath')
+  async resolveGamePath() {
+    const regUninstallerKeys =
+      'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall';
+
+    const listResult = await regedit.list([regUninstallerKeys]);
+
+    const allUninstallerKeys = listResult[regUninstallerKeys].keys
+      .filter((key) => key.includes('Wuthering'))
+      .map((eachKey) => `${regUninstallerKeys}\\${eachKey}`);
+
+    const uninstallers = await regedit.list(allUninstallerKeys);
+
+    for (const uninstallerKey of allUninstallerKeys) {
+      const uninstaller = uninstallers[uninstallerKey];
+      if (uninstaller.values.DisplayName?.value === `Wuthering Waves`) {
+        return uninstaller.values.InstallPath.value as string;
+      }
+    }
+
+    return null;
+  }
+
   @Handler('read')
   async read({
     filename,

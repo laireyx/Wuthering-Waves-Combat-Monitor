@@ -1,15 +1,13 @@
 import { create } from 'zustand';
 
 interface PrefStore {
-  gameDir: string;
+  gameDir: string | null;
 
   setGameDir: (gameDir: string) => void;
 }
 
 const usePrefStore = create<PrefStore>((set) => ({
-  gameDir:
-    localStorage.getItem('gameDir') ??
-    'D:\\Wuthering Waves\\Wuthering Waves Game',
+  gameDir: localStorage.getItem('gameDir'),
 
   setGameDir: (gameDir) => {
     localStorage.setItem('gameDir', gameDir);

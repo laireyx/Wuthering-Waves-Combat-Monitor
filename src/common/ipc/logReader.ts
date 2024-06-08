@@ -8,4 +8,5 @@ export interface IPCLogReaderReadOpts {
 
 export interface IPCLogReader {
   read(opts: IPCLogReaderReadOpts): Promise<LogReadResult>;
+  resolveGamePath(): Promise<string | null>;
 }

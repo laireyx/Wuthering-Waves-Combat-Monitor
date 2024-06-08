@@ -19,8 +19,10 @@ export default function CombatMonitor() {
     const intervalHandle = setInterval(
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async () => {
+        if (!gameDir) return;
+
         const { data, position } = await logReader.read({
-          filename: `${gameDir}\\Client\\Saved\\Logs\\Client.log`,
+          filename: `${gameDir}\\Wuthering Waves Game\\Client\\Saved\\Logs\\Client.log`,
           position: lastReadPos,
         });
 
