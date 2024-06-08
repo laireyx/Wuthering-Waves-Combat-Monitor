@@ -1,6 +1,6 @@
 import { open } from 'node:fs/promises';
 
-import { promisified as regedit } from 'regedit';
+import { promisified as regedit, setExternalVBSLocation } from 'regedit';
 
 import { IPCLogReader, IPCLogReaderReadOpts } from '@common/ipc/logReader';
 import { ClientLog } from '@common/types/logReader';
@@ -9,6 +9,8 @@ import parseBattleLog from './parse/clientLog/battle';
 import parseCombatInfoLog from './parse/clientLog/combatInfo';
 import { LogLineMatchResult } from './types';
 import { Handler, Module } from '../utils/decorators';
+
+setExternalVBSLocation('resources/vbs');
 
 function validateMatchResult(
   matchGroup?: Record<string, string>,

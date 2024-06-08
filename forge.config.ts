@@ -9,6 +9,7 @@ const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
     icon: 'img/icon.ico',
+    extraResource: ['node_modules/regedit/vbs'],
   },
   rebuildConfig: {},
   makers: [
