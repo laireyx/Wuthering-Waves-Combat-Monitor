@@ -31,6 +31,13 @@ export interface CombatInfoLogDataSkill {
   type: 'Skill';
 }
 
+export interface CombatInfoLogDataStateMachineNew {
+  type: 'StateMachineNew';
+  entity: Entity;
+  fromState: string;
+  toState: string;
+}
+
 export interface CombatInfoLogDataUnknown {
   type: 'Unknown';
 }
@@ -44,5 +51,6 @@ export interface CombatInfoLog extends ClientLogImpl {
     | CombatInfoLogDataBuff
     | CombatInfoLogDataPart
     | CombatInfoLogDataSkill
+    | CombatInfoLogDataStateMachineNew
     | CombatInfoLogDataUnknown;
 }

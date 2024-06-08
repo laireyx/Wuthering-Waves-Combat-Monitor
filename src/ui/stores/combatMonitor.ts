@@ -26,10 +26,12 @@ interface CombatMonitorStore {
   fightParts: Record<string, Part>;
   fightBuffs: Record<string, Buff>;
   totalDamage: number;
+  staggerCount: number;
 
   setFightStatus: (opts: { inFight: boolean; timestamp: string }) => void;
   appendPartLog: (log: CombatInfoLog) => void;
   appendBuffLog: (log: CombatInfoLog) => void;
+  appendStateMachineLog: (log: CombatInfoLog) => void;
 
   fightDuration: () => number;
 }
@@ -43,6 +45,7 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
   fightParts: {},
   fightBuffs: {},
   totalDamage: 0,
+  staggerCount: 0,
 
   setFightStatus: ({ inFight, timestamp }) => {
     if (inFight === true) {
@@ -62,6 +65,7 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
         fightParts: {},
         fightBuffs: {},
         totalDamage: 0,
+        staggerCount: 0,
       });
     } else {
       set(({ fightBuffs }) => {
@@ -172,6 +176,13 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
 
       return { fightBuffs: { ...fightBuffs } };
     });
+  },
+
+  appendStateMachineLog: ({ data }) => {
+    if (data.type !== 'StateMachineNew') return;
+    if (data.toState !== 'Boss瘫痪蒙太奇') return;
+
+    set(({ staggerCount }) => ({ staggerCount: staggerCount + 1 }));
   },
 
   fightDuration: () => {

@@ -13,7 +13,8 @@ import {
 } from './index.css';
 
 export default function CombatStatus() {
-  const { inFight, fightDuration, totalDamage } = useCombatMonitorStore();
+  const { inFight, fightDuration, totalDamage, staggerCount } =
+    useCombatMonitorStore();
 
   const [dps, setDps] = useState(0);
 
@@ -42,6 +43,11 @@ export default function CombatStatus() {
       <Indicator>
         <IndicatorCaption>DPS</IndicatorCaption>
         <span className={damageStyle}>{Math.round(dps)}</span>
+      </Indicator>
+
+      <Indicator>
+        <IndicatorCaption>Stagger Count</IndicatorCaption>
+        {staggerCount}
       </Indicator>
     </div>
   );

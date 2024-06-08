@@ -3,15 +3,6 @@ import { CombatInfoLog } from '@common/types/logReader';
 import { LogLineMatchResult } from '../../types';
 import parseEntity from '../entity/parseEntity';
 
-function validatePartMatchResult(
-  matchGroup?: Record<string, string>,
-): matchGroup is {
-  tagName: string;
-  lifeValue: string;
-} {
-  return !!(matchGroup?.tagName && matchGroup?.lifeValue);
-}
-
 function validateBuffMatchResult(
   matchGroup?: Record<string, string>,
 ): matchGroup is {
@@ -28,6 +19,24 @@ function validateBuffMatchResult(
     matchGroup?.buffTargetId &&
     matchGroup?.buffDescription
   );
+}
+
+function validatePartMatchResult(
+  matchGroup?: Record<string, string>,
+): matchGroup is {
+  tagName: string;
+  lifeValue: string;
+} {
+  return !!(matchGroup?.tagName && matchGroup?.lifeValue);
+}
+
+function validateStateMachineMatchResult(
+  matchGroup?: Record<string, string>,
+): matchGroup is {
+  fromState: string;
+  toState: string;
+} {
+  return !!(matchGroup?.fromState && matchGroup?.toState);
 }
 
 export default function parseCombatInfoLog({
@@ -107,6 +116,28 @@ export default function parseCombatInfoLog({
         entity,
         tagName,
         lifeValue: parseInt(lifeValue),
+      },
+    };
+  }
+
+  if (msg.startsWith('[StateMachineNew]')) {
+    const { groups } =
+      msg.match(/\[from: (?<fromState>.*?)\]\[to: (?<toState>.*?)\]/) ?? {};
+    const entity = parseEntity(msg);
+
+    if (!validateStateMachineMatchResult(groups) || !entity) return;
+    const { fromState, toState } = groups;
+
+    return {
+      timestamp,
+      type: 'CombatInfo',
+      seq: parseInt(seq),
+      msg,
+      data: {
+        type: 'StateMachineNew',
+        entity,
+        fromState,
+        toState,
       },
     };
   }

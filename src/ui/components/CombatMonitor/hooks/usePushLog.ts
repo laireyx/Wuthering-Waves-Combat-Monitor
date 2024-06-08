@@ -5,8 +5,12 @@ import { ClientLog } from '@common/types/logReader';
 import useCombatMonitorStore from 'src/ui/stores/combatMonitor';
 
 export default function usePushLog() {
-  const { setFightStatus, appendBuffLog, appendPartLog } =
-    useCombatMonitorStore();
+  const {
+    setFightStatus,
+    appendBuffLog,
+    appendPartLog,
+    appendStateMachineLog,
+  } = useCombatMonitorStore();
 
   const pushLog = useCallback(
     (log: ClientLog) => {
@@ -39,9 +43,13 @@ export default function usePushLog() {
         if (log.data.type === 'Skill') {
           return;
         }
+        if (log.data.type === 'StateMachineNew') {
+          appendStateMachineLog(log);
+          return;
+        }
       }
     },
-    [setFightStatus, appendBuffLog, appendPartLog],
+    [setFightStatus, appendBuffLog, appendPartLog, appendStateMachineLog],
   );
 
   return pushLog;
