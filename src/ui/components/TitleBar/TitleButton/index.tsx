@@ -1,7 +1,23 @@
-import { titleButtonStyle } from '../index.css';
+import { titleButtonStyle, titleButtonWrapperStyle } from './index.css';
 
-export default function TitleButton() {
+type TitleButtonProps = React.ComponentProps<'span'> & {
+  img: string;
+  onClick: () => void;
+};
+
+export default function TitleButton({
+  img,
+  className,
+  onClick,
+  ...props
+}: TitleButtonProps) {
   return (
-    <span className={titleButtonStyle} onClick={() => window.close()}></span>
+    <span
+      className={`${titleButtonWrapperStyle} ${className ?? ''}`}
+      {...props}
+      onClick={onClick}
+    >
+      <img className={titleButtonStyle} src={img} />
+    </span>
   );
 }

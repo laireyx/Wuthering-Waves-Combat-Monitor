@@ -27,29 +27,31 @@ export const titlebarStyle = style({
   height: 32,
 
   display: 'flex',
+  justifyContent: 'flex-end',
   background: '#7f7f7f',
 });
 
-export const titleButtonStyle = style({
-  border: 'none',
-  borderRadius: 8,
-  background: '#c33',
-
-  width: 24,
-  height: 24,
-  margin: 4,
-
-  WebkitAppRegion: 'no-drag',
-  cursor: 'pointer',
-});
-
 export const titleStyle = style({
-  position: 'relative',
-  width: '100%',
-  height: '100%',
+  position: 'absolute',
+  left: 64,
+  right: 64,
+
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
 
   textAlign: 'center',
   lineHeight: '32px',
 
   userSelect: 'none',
+});
+
+export const configButtonStyle = style({
+  background: '#555',
+  color: '#ccc',
+});
+
+export const shutdownButtonStyle = style({
+  background: '#c33',
+  color: '#fff',
 });

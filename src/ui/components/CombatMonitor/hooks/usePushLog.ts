@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { ClientLog } from '@common/types/logReader';
 
-import useCombatMonitorStore from 'src/ui/stores/combatMonitor';
+import useCombatMonitorStore from '../../../stores/combatMonitor';
 
 export default function usePushLog() {
   const {

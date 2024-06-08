@@ -1,5 +1,11 @@
 import { style } from '@vanilla-extract/css';
 
+export const combatStatusTitleStyle = style({
+  margin: 0,
+  textAlign: 'center',
+  fontWeight: 'bold',
+});
+
 export const combatStatusStyle = style({
   display: 'flex',
   flexDirection: 'row',

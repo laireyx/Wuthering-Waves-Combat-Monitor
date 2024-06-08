@@ -3,8 +3,7 @@ import {
   KnownBuffs,
 } from '@common/types/logReader/CombatInfo/buffs';
 
-import useCombatMonitorStore from 'src/ui/stores/combatMonitor';
-
+import useCombatMonitorStore from '../../../../stores/combatMonitor';
 import Indicator from '../Indicator';
 import IndicatorCaption from '../Indicator/Caption';
 

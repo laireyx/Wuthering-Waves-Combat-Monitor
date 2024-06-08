@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 
-import useCombatMonitorStore from 'src/ui/stores/combatMonitor';
-import fillZero from 'src/ui/utils/fillZero';
-
+import useCombatMonitorStore from '../../../../stores/combatMonitor';
+import fillZero from '../../../../utils/fillZero';
 import Indicator from '../Indicator';
 import IndicatorCaption from '../Indicator/Caption';
 
 import {
   combatStatusStyle,
+  combatStatusTitleStyle,
   damageStyle,
   fightStatusInFightStyle,
 } from './index.css';
@@ -28,31 +28,34 @@ export default function CombatStatus() {
   }, [inFight, totalDamage, durationInSec]);
 
   return (
-    <div className={combatStatusStyle}>
-      <Indicator className={inFight ? fightStatusInFightStyle : ''}>
-        <IndicatorCaption>Status</IndicatorCaption>
-        {inFight ? 'Fight' : 'Idle'}
-      </Indicator>
-      <Indicator>
-        <IndicatorCaption>Duration</IndicatorCaption> {durationStr}
-      </Indicator>
-      <Indicator>
-        <IndicatorCaption>Total Dmg</IndicatorCaption>
-        <span className={damageStyle}>{totalDamage}</span>
-      </Indicator>
-      <Indicator>
-        <IndicatorCaption>DPS</IndicatorCaption>
-        <span className={damageStyle}>{Math.round(dps)}</span>
-      </Indicator>
+    <>
+      <p className={combatStatusTitleStyle}>Combat Status</p>
+      <div className={combatStatusStyle}>
+        <Indicator className={inFight ? fightStatusInFightStyle : ''}>
+          <IndicatorCaption>Status</IndicatorCaption>
+          {inFight ? 'Fight' : 'Idle'}
+        </Indicator>
+        <Indicator>
+          <IndicatorCaption>Duration</IndicatorCaption> {durationStr}
+        </Indicator>
+        <Indicator>
+          <IndicatorCaption>Total Dmg</IndicatorCaption>
+          <span className={damageStyle}>{totalDamage}</span>
+        </Indicator>
+        <Indicator>
+          <IndicatorCaption>DPS</IndicatorCaption>
+          <span className={damageStyle}>{Math.round(dps)}</span>
+        </Indicator>
 
-      <Indicator>
-        <IndicatorCaption>Stagger Count</IndicatorCaption>
-        {staggerCount > 0 ? staggerCount : '-'}
-      </Indicator>
-      <Indicator>
-        <IndicatorCaption>Stagger Avg</IndicatorCaption>
-        {staggerCount > 0 ? Math.round(fightDuration() / staggerCount) : '-'}s
-      </Indicator>
-    </div>
+        <Indicator>
+          <IndicatorCaption>Stagger Count</IndicatorCaption>
+          {staggerCount > 0 ? staggerCount : '-'}
+        </Indicator>
+        <Indicator>
+          <IndicatorCaption>Stagger Avg</IndicatorCaption>
+          {staggerCount > 0 ? Math.round(fightDuration() / staggerCount) : '-'}s
+        </Indicator>
+      </div>
+    </>
   );
 }

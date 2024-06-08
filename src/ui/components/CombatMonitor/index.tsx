@@ -10,7 +10,7 @@ import Vertical from '../Vertical';
 import { combatMonitorStyle } from './index.css';
 
 export default function CombatMonitor() {
-  const { gameDir } = usePrefStore();
+  const { gamePath } = usePrefStore();
   const [lastReadPos, setLastReadPos] = useState(0);
 
   const pushLog = usePushLog();
@@ -19,10 +19,10 @@ export default function CombatMonitor() {
     const intervalHandle = setInterval(
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async () => {
-        if (!gameDir) return;
+        if (!gamePath) return;
 
         const { data, position } = await logReader.read({
-          filename: `${gameDir}\\Wuthering Waves Game\\Client\\Saved\\Logs\\Client.log`,
+          filename: `${gamePath}\\Wuthering Waves Game\\Client\\Saved\\Logs\\Client.log`,
           position: lastReadPos,
         });
 
@@ -33,7 +33,7 @@ export default function CombatMonitor() {
     );
 
     return () => clearInterval(intervalHandle);
-  }, [gameDir, lastReadPos, pushLog]);
+  }, [gamePath, lastReadPos, pushLog]);
 
   return (
     <Card>

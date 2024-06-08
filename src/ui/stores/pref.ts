@@ -1,17 +1,17 @@
 import { create } from 'zustand';
 
 interface PrefStore {
-  gameDir: string | null;
+  gamePath: string | null;
 
-  setGameDir: (gameDir: string) => void;
+  setGamePath: (gamePath: string) => void;
 }
 
 const usePrefStore = create<PrefStore>((set) => ({
-  gameDir: localStorage.getItem('gameDir'),
+  gamePath: localStorage.getItem('gameDir'),
 
-  setGameDir: (gameDir) => {
-    localStorage.setItem('gameDir', gameDir);
-    set({ gameDir });
+  setGamePath: (gamePath) => {
+    localStorage.setItem('gamePath', gamePath);
+    set({ gamePath });
   },
 }));
 
