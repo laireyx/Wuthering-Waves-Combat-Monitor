@@ -17,8 +17,3 @@ export const combatStatusStyle = style({
 export const fightStatusInFightStyle = style({
   color: '#c77',
 });
-
-export const damageStyle = style({
-  color: '#c00',
-  fontWeight: 'bold',
-});
