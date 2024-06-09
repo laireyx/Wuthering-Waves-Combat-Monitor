@@ -1,7 +1,10 @@
 import { create } from 'zustand';
 
 import { CombatInfoLog } from '@common/types/logReader';
-import { KnownBuffKeys } from '@common/types/logReader/CombatInfo/buffs';
+import {
+  KnownBuffKeys,
+  KnownBuffs,
+} from '@common/types/logReader/CombatInfo/buffs';
 
 import parseTimestamp from '../utils/parseTimestamp';
 
@@ -34,6 +37,7 @@ interface CombatMonitorStore {
   appendStateMachineLog: (log: CombatInfoLog) => void;
 
   fightDuration: () => number;
+  calcAccBuffTime: (buffKey: keyof KnownBuffs) => number;
 }
 
 const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
@@ -193,6 +197,19 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
     const { inFight, fightStart, fightEnd } = get();
 
     return ((inFight ? Date.now() : fightEnd) - fightStart) / 1000;
+  },
+
+  calcAccBuffTime: (buffKey) => {
+    const { fightBuffs } = get();
+
+    const targetBuff = fightBuffs[buffKey];
+    if (!targetBuff) return 0;
+
+    const accumulatedTime = targetBuff.accumulatedTime;
+    return (
+      accumulatedTime +
+      (targetBuff.activated ? Date.now() - targetBuff.activationTime : 0)
+    );
   },
 }));
 

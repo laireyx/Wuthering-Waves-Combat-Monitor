@@ -10,7 +10,8 @@ import IndicatorCaption from '../Indicator/Caption';
 import { combatBuffTitleStyle, combatBuffsStyle } from './index.css';
 
 export default function CombatBuffs() {
-  const { fightBuffs, fightDuration } = useCombatMonitorStore();
+  const { fightBuffs, fightDuration, calcAccBuffTime } =
+    useCombatMonitorStore();
 
   const buffKeys = Object.keys(fightBuffs) as (keyof KnownBuffs)[];
 
@@ -25,8 +26,7 @@ export default function CombatBuffs() {
                 {KnownBuffMap[buffKey].buffName}
               </IndicatorCaption>
               {Math.round(
-                (fightBuffs[buffKey].accumulatedTime / 1000 / fightDuration()) *
-                  100,
+                (calcAccBuffTime(buffKey) / 1000 / fightDuration()) * 100,
               )}
               %
             </Indicator>
