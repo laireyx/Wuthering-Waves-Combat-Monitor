@@ -34,8 +34,8 @@ export interface CombatInfoLogDataSkill {
 export interface CombatInfoLogDataStateMachineNew {
   type: 'StateMachineNew';
   entity: Entity;
-  fromState: string;
-  toState: string;
+  fromState?: string;
+  toState?: string;
 }
 
 export interface CombatInfoLogDataUnknown {

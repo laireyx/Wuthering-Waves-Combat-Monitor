@@ -178,9 +178,13 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
     });
   },
 
-  appendStateMachineLog: ({ data }) => {
+  appendStateMachineLog: ({ data, msg }) => {
     if (data.type !== 'StateMachineNew') return;
-    if (data.toState !== 'Boss瘫痪蒙太奇') return;
+    if (
+      data.toState !== 'Boss瘫痪蒙太奇' &&
+      !(data.entity.type === 'Monster' && msg.includes('[开始瘫痪]'))
+    )
+      return;
 
     set(({ staggerCount }) => ({ staggerCount: staggerCount + 1 }));
   },

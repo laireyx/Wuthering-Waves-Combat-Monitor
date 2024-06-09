@@ -30,15 +30,6 @@ function validatePartMatchResult(
   return !!(matchGroup?.tagName && matchGroup?.lifeValue);
 }
 
-function validateStateMachineMatchResult(
-  matchGroup?: Record<string, string>,
-): matchGroup is {
-  fromState: string;
-  toState: string;
-} {
-  return !!(matchGroup?.fromState && matchGroup?.toState);
-}
-
 export default function parseCombatInfoLog({
   timestamp,
   seq,
@@ -125,8 +116,8 @@ export default function parseCombatInfoLog({
       msg.match(/\[from: (?<fromState>.*?)\]\[to: (?<toState>.*?)\]/) ?? {};
     const entity = parseEntity(msg);
 
-    if (!validateStateMachineMatchResult(groups) || !entity) return;
-    const { fromState, toState } = groups;
+    if (!entity) return;
+    const { fromState, toState } = groups ?? {};
 
     return {
       timestamp,

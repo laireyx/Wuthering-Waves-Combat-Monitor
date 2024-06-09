@@ -3,7 +3,7 @@ import { create } from 'zustand';
 interface PrefStore {
   gamePath: string | null;
 
-  setGamePath: (gamePath: string) => void;
+  setGamePath: (gamePath: string | null) => void;
 }
 
 const usePrefStore = create<PrefStore>((set) => ({
