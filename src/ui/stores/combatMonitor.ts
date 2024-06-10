@@ -30,11 +30,13 @@ interface CombatMonitorStore {
   fightBuffs: Record<string, Buff>;
   totalDamage: number;
   staggerCount: number;
+  qteCount: number;
 
   setFightStatus: (opts: { inFight: boolean; timestamp: string }) => void;
   appendPartLog: (log: CombatInfoLog) => void;
   appendBuffLog: (log: CombatInfoLog) => void;
   appendStateMachineLog: (log: CombatInfoLog) => void;
+  appendSkillLog: (log: CombatInfoLog) => void;
 
   fightDuration: () => number;
   calcAccBuffTime: (buffKey: keyof KnownBuffs) => number;
@@ -50,6 +52,7 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
   fightBuffs: {},
   totalDamage: 0,
   staggerCount: 0,
+  qteCount: 0,
 
   setFightStatus: ({ inFight, timestamp }) => {
     if (inFight === true) {
@@ -70,6 +73,7 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
         fightBuffs: {},
         totalDamage: 0,
         staggerCount: 0,
+        qteCount: 0,
       });
     } else {
       set(({ fightBuffs }) => {
@@ -191,6 +195,14 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
       return;
 
     set(({ staggerCount }) => ({ staggerCount: staggerCount + 1 }));
+  },
+
+  appendSkillLog: ({ data }) => {
+    if (data.type !== 'Skill') return;
+    if (data.characterSkillComponent.phase !== 'RequestEndSkill') return;
+    if (!data.characterSkillComponent.finalSkillName.includes('QTE')) return;
+
+    set(({ qteCount }) => ({ qteCount: qteCount + 1 }));
   },
 
   fightDuration: () => {

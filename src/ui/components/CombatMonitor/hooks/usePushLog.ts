@@ -10,6 +10,7 @@ export default function usePushLog() {
     appendBuffLog,
     appendPartLog,
     appendStateMachineLog,
+    appendSkillLog,
   } = useCombatMonitorStore();
 
   const pushLog = useCallback(
@@ -41,6 +42,7 @@ export default function usePushLog() {
           return;
         }
         if (log.data.type === 'Skill') {
+          appendSkillLog(log);
           return;
         }
         if (log.data.type === 'StateMachineNew') {
@@ -49,7 +51,13 @@ export default function usePushLog() {
         }
       }
     },
-    [setFightStatus, appendBuffLog, appendPartLog, appendStateMachineLog],
+    [
+      setFightStatus,
+      appendBuffLog,
+      appendPartLog,
+      appendSkillLog,
+      appendStateMachineLog,
+    ],
   );
 
   return pushLog;
