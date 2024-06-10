@@ -17,6 +17,8 @@ export interface CombatInfoLogDataBuff {
   buffCreatorId?: number;
   buffTargetId: number;
   buffDescription: keyof KnownBuffs | (string & Record<never, never>);
+  buffReason?: string;
+  handle?: number;
 }
 export interface CombatInfoLogDataPart {
   type: 'Part';
@@ -29,6 +31,25 @@ export interface CombatInfoLogDataPart {
 
 export interface CombatInfoLogDataSkill {
   type: 'Skill';
+
+  entity: Entity;
+  characterSkillComponent:
+    | {
+        phase: 'BeginSkill';
+        skillId: number;
+        skillName: string;
+      }
+    | {
+        phase: 'RequestEndSkill';
+        finalSkillId: number;
+        finalSkillName: string;
+        canInterrupt: boolean;
+      }
+    | {
+        phase: 'DoSkillEnd';
+        skillId: number;
+        skillName: string;
+      };
 }
 
 export interface CombatInfoLogDataStateMachineNew {

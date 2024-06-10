@@ -12,6 +12,8 @@ function validateBuffMatchResult(
   buffCreatorId?: string;
   buffTargetId: string;
   buffDescription: string;
+  buffReason?: string;
+  handle?: string;
 } {
   return !!(
     matchGroup?.addOrRemove &&
@@ -28,6 +30,29 @@ function validatePartMatchResult(
   lifeValue: string;
 } {
   return !!(matchGroup?.tagName && matchGroup?.lifeValue);
+}
+
+function validateSkillMatchResult(
+  matchGroup?: Record<string, string>,
+): matchGroup is {
+  skillId: string;
+  skillName: string;
+} {
+  return !!(matchGroup?.skillId && matchGroup?.skillName);
+}
+
+function validateFinalSkillMatchResult(
+  matchGroup?: Record<string, string>,
+): matchGroup is {
+  finalSkillId: string;
+  finalSkillName: string;
+  canInterrupt: string;
+} {
+  return !!(
+    matchGroup?.finalSkillId &&
+    matchGroup?.finalSkillName &&
+    matchGroup?.canInterrupt
+  );
 }
 
 export default function parseCombatInfoLog({
@@ -55,7 +80,7 @@ export default function parseCombatInfoLog({
   if (msg.startsWith('[Buff]')) {
     const { groups } =
       msg.match(
-        /本地(?<addOrRemove>添加|移除)buff \[buffId:(?<buffId>.*?)\](\[创建者id: (?<buffCreatorId>.*?)\])?\[持有者: (?<buffTargetId>.*?)\].*?\[说明: (?<buffDescription>.*?)\]/,
+        /本地(?<addOrRemove>添加|移除)buff \[buffId:(?<buffId>.*?)\](\[创建者id: (?<buffCreatorId>.*?)\])?\[持有者: (?<buffTargetId>.*?)\].*?\[原因: (?<buffReason>.*?)\].*?\[handle: (?<handle>.*?)\].*?\[说明: (?<buffDescription>.*?)\]/,
       ) ?? {};
 
     const entity = parseEntity(msg);
@@ -68,6 +93,8 @@ export default function parseCombatInfoLog({
       buffCreatorId,
       buffTargetId,
       buffDescription,
+      buffReason,
+      handle,
     } = groups;
 
     return {
@@ -83,6 +110,8 @@ export default function parseCombatInfoLog({
         buffCreatorId: buffCreatorId ? parseInt(buffCreatorId) : undefined,
         buffTargetId: parseInt(buffTargetId),
         buffDescription,
+        buffReason,
+        handle: handle ? parseInt(handle) : undefined,
       },
     };
   }
@@ -133,10 +162,77 @@ export default function parseCombatInfoLog({
     };
   }
 
-  /**
-   * @todo implement Skill parsing
-   * [Skill][EntityId:10534:Player:BP_Anke_C_2147405541] CharacterSkillComponent.RequestEndSkill [结束技能ID: 200001][结束技能名称: 变身幻象][Reason: GameplayAbilityVisionMorph.MorphEnd][CanInterrupt: false][ReadyEnd: false]
-   */
+  if (msg.startsWith('[Skill]')) {
+    const entity = parseEntity(msg);
+    const [, phase] =
+      msg.match(
+        /CharacterSkillComponent.(BeginSkill|RequestEndSkill|DoSkillEnd)/,
+      ) ?? [];
+
+    if (!entity) return;
+
+    const { groups } =
+      msg.match(
+        /\[技能Id: (?<skillId>.*?)\].*?\[技能名: (?<skillName>.*?)\]|\[结束技能ID: (?<finalSkillId>.*?)\].*?\[结束技能名称: (?<finalSkillName>.*?)\].*?\[CanInterrupt: (?<canInterrupt>true|false)\]/,
+      ) ?? {};
+
+    switch (phase) {
+      case 'BeginSkill':
+        if (validateSkillMatchResult(groups))
+          return {
+            timestamp,
+            type: 'CombatInfo',
+            seq: parseInt(seq),
+            msg,
+            data: {
+              type: 'Skill',
+              entity,
+              characterSkillComponent: {
+                phase,
+                skillId: parseInt(groups.skillId),
+                skillName: groups.skillName,
+              },
+            },
+          };
+        break;
+      case 'RequestEndSkill':
+        if (validateFinalSkillMatchResult(groups))
+          return {
+            timestamp,
+            type: 'CombatInfo',
+            seq: parseInt(seq),
+            msg,
+            data: {
+              type: 'Skill',
+              entity,
+              characterSkillComponent: {
+                phase,
+                finalSkillId: parseInt(groups.finalSkillId),
+                finalSkillName: groups.finalSkillName,
+                canInterrupt: groups.canInterrupt === 'true',
+              },
+            },
+          };
+        break;
+      case 'DoSkillEnd':
+        if (validateSkillMatchResult(groups))
+          return {
+            timestamp,
+            type: 'CombatInfo',
+            seq: parseInt(seq),
+            msg,
+            data: {
+              type: 'Skill',
+              entity,
+              characterSkillComponent: {
+                phase,
+                skillId: parseInt(groups.skillId),
+                skillName: groups.skillName,
+              },
+            },
+          };
+    }
+  }
 }
 
 // [DeathComponent]执行角色死亡逻辑 [Entity: [object WorldEntity(Id=232456193)]][PbDataId: 109800112]
