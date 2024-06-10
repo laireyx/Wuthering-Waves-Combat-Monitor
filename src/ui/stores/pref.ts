@@ -10,7 +10,7 @@ const usePrefStore = create<PrefStore>((set) => ({
   gamePath: localStorage.getItem('gameDir'),
 
   setGamePath: (gamePath) => {
-    localStorage.setItem('gamePath', gamePath);
+    if (gamePath) localStorage.setItem('gamePath', gamePath);
     set({ gamePath });
   },
 }));
