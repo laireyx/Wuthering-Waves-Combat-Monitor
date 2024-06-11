@@ -8,11 +8,11 @@
 
 _Credits: [MorphTheMoth/WuwaDpsMeter](https://github.com/MorphTheMoth/WuwaDpsMeter) gave me an idea of tracking the log file._
 
-Log file of WW contains a wealth of informations, including life values of the entity parts, allowing us to calculate DPS by tracking them.
+Log file of WW contains a wealth of informations, including buffs, skill activations.
 
 ## Caveats
 
-- Unfortunately the damage on parts is not affected by real damage. damage calculation is removed.
+- Unfortunately the damage on parts is not affected by real damage(damage calculation is removed).
 - Not all buffs are tracked.
 
 ## Credits
