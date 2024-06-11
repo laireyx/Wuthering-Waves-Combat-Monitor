@@ -13,10 +13,10 @@ export interface CombatInfoLogDataBuff {
 
   entity: Entity;
   addOrRemove: 'add' | 'remove';
-  buffId: number;
+  buffId: keyof KnownBuffs | (number & Record<never, never>);
   buffCreatorId?: number;
   buffTargetId: number;
-  buffDescription: keyof KnownBuffs | (string & Record<never, never>);
+  buffDescription: string;
   buffReason?: string;
   handle?: number;
 }

@@ -148,21 +148,19 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
     if (!inFight) return;
     if (data.type !== 'Buff') return;
 
-    const { addOrRemove, buffDescription } = data;
+    const { addOrRemove, buffId } = data;
 
     set(({ fightBuffs }) => {
-      if (!KnownBuffKeys.includes(buffDescription)) return {};
+      if (!KnownBuffKeys.includes(buffId.toString())) return {};
 
-      const { activationTime, accumulatedTime } = fightBuffs[
-        buffDescription
-      ] ?? {
+      const { activationTime, accumulatedTime } = fightBuffs[buffId] ?? {
         activated: false,
         activationTime: parseTimestamp(timestamp),
         accumulatedTime: 0,
       };
 
       if (addOrRemove === 'add') {
-        fightBuffs[buffDescription] = {
+        fightBuffs[buffId] = {
           activated: true,
           activationTime: parseTimestamp(timestamp),
           accumulatedTime,
@@ -172,11 +170,11 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
 
       // buff removed, but not activated in this combat.
       // skip it because we've already finished it before.
-      if (!fightBuffs[buffDescription]?.activated) return {};
+      if (!fightBuffs[buffId]?.activated) return {};
 
       const currentActivation = parseTimestamp(timestamp) - activationTime;
 
-      fightBuffs[buffDescription] = {
+      fightBuffs[buffId] = {
         activated: false,
         activationTime,
         accumulatedTime: accumulatedTime + currentActivation,
