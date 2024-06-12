@@ -8,11 +8,6 @@ import {
 
 import parseTimestamp from '../utils/parseTimestamp';
 
-interface Part {
-  lifeValue: number;
-  accumulatedDamage: number;
-}
-
 interface Buff {
   activated: boolean;
   activationTime: number;
@@ -26,14 +21,12 @@ interface CombatMonitorStore {
   fightEnd: number;
 
   // Should reset these values when fight started.
-  fightParts: Record<string, Part>;
   fightBuffs: Record<string, Buff>;
   totalDamage: number;
   staggerCount: number;
   qteCount: number;
 
   setFightStatus: (opts: { inFight: boolean; timestamp: string }) => void;
-  appendPartLog: (log: CombatInfoLog) => void;
   appendBuffLog: (log: CombatInfoLog) => void;
   appendStateMachineLog: (log: CombatInfoLog) => void;
   appendSkillLog: (log: CombatInfoLog) => void;
@@ -48,7 +41,6 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
   fightStart: -1,
   fightEnd: -1,
 
-  fightParts: {},
   fightBuffs: {},
   totalDamage: 0,
   staggerCount: 0,
@@ -69,7 +61,6 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
         inFight,
         fightStart: parseTimestamp(timestamp),
         fightEnd: -1,
-        fightParts: {},
         fightBuffs: {},
         totalDamage: 0,
         staggerCount: 0,
@@ -113,31 +104,6 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
         };
       });
     }
-  },
-
-  appendPartLog: ({ data }) => {
-    if (data.type !== 'Part') return;
-
-    const uniqName = `${data.entity.id}:${data.entity.name}:${data.tagName}`;
-
-    set(({ fightParts, totalDamage }) => {
-      const { lifeValue, accumulatedDamage } = fightParts[uniqName] ?? {
-        lifeValue: data.lifeValue,
-        accumulatedDamage: 0,
-      };
-
-      const currentDamage = lifeValue - data.lifeValue;
-
-      fightParts[uniqName] = {
-        lifeValue,
-        accumulatedDamage: accumulatedDamage + currentDamage,
-      };
-
-      return {
-        totalDamage: totalDamage + currentDamage,
-        fightParts: { ...fightParts },
-      };
-    });
   },
 
   /**
