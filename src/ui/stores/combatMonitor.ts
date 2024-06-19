@@ -25,11 +25,13 @@ interface CombatMonitorStore {
   totalDamage: number;
   staggerCount: number;
   qteCount: number;
+  hitCount: number;
 
   setFightStatus: (opts: { inFight: boolean; timestamp: string }) => void;
   appendBuffLog: (log: CombatInfoLog) => void;
   appendStateMachineLog: (log: CombatInfoLog) => void;
   appendSkillLog: (log: CombatInfoLog) => void;
+  appendHitLog: (log: CombatInfoLog) => void;
 
   fightDuration: () => number;
   calcAccBuffTime: (buffKey: keyof KnownBuffs) => number;
@@ -45,6 +47,7 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
   totalDamage: 0,
   staggerCount: 0,
   qteCount: 0,
+  hitCount: 0,
 
   setFightStatus: ({ inFight, timestamp }) => {
     if (inFight === true) {
@@ -65,6 +68,7 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
         totalDamage: 0,
         staggerCount: 0,
         qteCount: 0,
+        hitCount: 0,
       });
     } else {
       set(({ fightBuffs }) => {
@@ -167,6 +171,13 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
     if (!data.characterSkillComponent.finalSkillName.includes('QTE')) return;
 
     set(({ qteCount }) => ({ qteCount: qteCount + 1 }));
+  },
+
+  appendHitLog: ({ data }) => {
+    if (data.type !== 'Hit') return;
+    if (data.entity.type !== 'Player') return;
+
+    set(({ hitCount }) => ({ hitCount: hitCount + 1 }));
   },
 
   fightDuration: () => {

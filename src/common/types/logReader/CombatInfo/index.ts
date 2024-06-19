@@ -8,6 +8,7 @@ export interface CombatInfoLogDataAi {
 
   entity: Entity;
 }
+
 export interface CombatInfoLogDataBuff {
   type: 'Buff';
 
@@ -20,6 +21,7 @@ export interface CombatInfoLogDataBuff {
   buffReason?: string;
   handle?: number;
 }
+
 export interface CombatInfoLogDataPart {
   type: 'Part';
 
@@ -59,6 +61,13 @@ export interface CombatInfoLogDataStateMachineNew {
   toState?: string;
 }
 
+export interface CombatInfoLogDataHit {
+  type: 'Hit';
+
+  entity: Entity;
+  beHitAnim: number;
+}
+
 export interface CombatInfoLogDataUnknown {
   type: 'Unknown';
 }
@@ -73,5 +82,6 @@ export interface CombatInfoLog extends ClientLogImpl {
     | CombatInfoLogDataPart
     | CombatInfoLogDataSkill
     | CombatInfoLogDataStateMachineNew
+    | CombatInfoLogDataHit
     | CombatInfoLogDataUnknown;
 }

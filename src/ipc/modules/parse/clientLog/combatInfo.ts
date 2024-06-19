@@ -55,6 +55,14 @@ function validateFinalSkillMatchResult(
   );
 }
 
+function validateHitMatchResult(
+  matchGroup?: Record<string, string>,
+): matchGroup is {
+  beHitAnim: string;
+} {
+  return !!matchGroup?.beHitAnim;
+}
+
 export default function parseCombatInfoLog({
   timestamp,
   seq,
@@ -232,6 +240,28 @@ export default function parseCombatInfoLog({
             },
           };
     }
+  }
+
+  if (msg.startsWith('[Hit]')) {
+    const { groups } = msg.match(/\[BeHitAnim: (?<beHitAnim>\d+)\]/) ?? {};
+    const entity = parseEntity(msg);
+
+    if (!entity) return;
+    if (!validateHitMatchResult(groups)) return;
+
+    const { beHitAnim } = groups;
+
+    return {
+      timestamp,
+      type: 'CombatInfo',
+      seq: parseInt(seq),
+      msg,
+      data: {
+        type: 'Hit',
+        entity,
+        beHitAnim: parseInt(beHitAnim),
+      },
+    };
   }
 }
 
