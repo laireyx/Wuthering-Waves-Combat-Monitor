@@ -33,17 +33,8 @@ export default function CombatStatus() {
           {staggerCount > 0 ? staggerCount : '-'}
         </Indicator>
         <Indicator>
-          <IndicatorCaption>Stagger Avg</IndicatorCaption>
-          {staggerCount > 0 ? Math.round(fightDuration() / staggerCount) : '-'}s
-        </Indicator>
-
-        <Indicator>
           <IndicatorCaption>QTE Count</IndicatorCaption>
           {qteCount > 0 ? qteCount : '-'}
-        </Indicator>
-        <Indicator>
-          <IndicatorCaption>QTE Avg</IndicatorCaption>
-          {qteCount > 0 ? Math.round(fightDuration() / qteCount) : '-'}s
         </Indicator>
 
         <Indicator>
