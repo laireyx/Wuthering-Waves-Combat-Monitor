@@ -51,7 +51,6 @@ export default function usePushLog() {
         }
       } else if (log.type === 'UiCore') {
         if (log.data.type === 'PlayInterfaceAnimation') {
-          console.log(log);
           appendPlayInterfaceLog(log);
         }
       }
