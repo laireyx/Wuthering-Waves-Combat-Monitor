@@ -7,4 +7,5 @@ export interface LogReadResult {
 
 export * from './Battle';
 export * from './CombatInfo';
+export * from './UiCore';
 export * from './ClientLog';

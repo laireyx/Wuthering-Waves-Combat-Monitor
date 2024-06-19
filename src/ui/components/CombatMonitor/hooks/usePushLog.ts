@@ -11,6 +11,7 @@ export default function usePushLog() {
     appendStateMachineLog,
     appendSkillLog,
     appendHitLog,
+    appendPlayInterfaceLog,
   } = useCombatMonitorStore();
 
   const pushLog = useCallback(
@@ -24,11 +25,7 @@ export default function usePushLog() {
 
           return;
         }
-
-        return;
-      }
-
-      if (log.type === 'CombatInfo') {
+      } else if (log.type === 'CombatInfo') {
         if (log.data.type === 'Ai') {
           return;
         }
@@ -52,6 +49,11 @@ export default function usePushLog() {
           appendHitLog(log);
           return;
         }
+      } else if (log.type === 'UiCore') {
+        if (log.data.type === 'PlayInterfaceAnimation') {
+          console.log(log);
+          appendPlayInterfaceLog(log);
+        }
       }
     },
     [
@@ -60,6 +62,7 @@ export default function usePushLog() {
       appendSkillLog,
       appendStateMachineLog,
       appendHitLog,
+      appendPlayInterfaceLog,
     ],
   );
 

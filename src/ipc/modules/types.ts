@@ -1,6 +1,6 @@
 export interface LogLineMatchResult {
   timestamp: string;
-  type: 'Battle' | 'CombatInfo';
+  type: 'Battle' | 'CombatInfo' | 'UiCore';
   seq: string;
   msg: string;
 

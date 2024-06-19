@@ -10,10 +10,15 @@ import {
 } from './index.css';
 
 export default function CombatStatus() {
-  const { inFight, fightDuration, staggerCount, qteCount, hitCount } =
-    useCombatMonitorStore();
+  const {
+    status: inFight,
+    fightDuration,
+    staggerCount,
+    qteCount,
+    hitCount,
+  } = useCombatMonitorStore();
 
-  const durationInSec = fightDuration();
+  const durationInSec = fightDuration() / 1000;
   const durationStr = `${fillZero(Math.floor(durationInSec / 60), 2)}:${fillZero(Math.round(durationInSec) % 60, 2)}`;
 
   return (

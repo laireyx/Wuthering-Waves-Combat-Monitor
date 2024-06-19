@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { CombatInfoLog } from '@common/types/logReader';
+import { CombatInfoLog, UiCoreLog } from '@common/types/logReader';
 import {
   KnownBuffKeys,
   KnownBuffs,
@@ -15,10 +15,13 @@ interface Buff {
 }
 
 interface CombatMonitorStore {
-  inFight: boolean;
+  status: 'inFight' | 'inFightPaused' | 'idle';
 
   fightStart: number;
   fightEnd: number;
+
+  pauseStart: number;
+  totalPause: number;
 
   // Should reset these values when fight started.
   fightBuffs: Record<string, Buff>;
@@ -33,15 +36,21 @@ interface CombatMonitorStore {
   appendSkillLog: (log: CombatInfoLog) => void;
   appendHitLog: (log: CombatInfoLog) => void;
 
+  appendPlayInterfaceLog: (log: UiCoreLog) => void;
+
+  pauseDuration: () => number;
   fightDuration: () => number;
   calcAccBuffTime: (buffKey: keyof KnownBuffs) => number;
 }
 
 const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
-  inFight: false,
+  status: 'idle',
 
   fightStart: -1,
   fightEnd: -1,
+
+  pauseStart: -1,
+  totalPause: 0,
 
   fightBuffs: {},
   totalDamage: 0,
@@ -56,14 +65,17 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
       // continuous battle
       if (parseTimestamp(timestamp) - prevFightEnd < 1000) {
         return set({
-          inFight,
+          status: inFight ? 'inFight' : 'idle',
         });
       }
 
       set({
-        inFight,
+        status: inFight ? 'inFight' : 'idle',
         fightStart: parseTimestamp(timestamp),
         fightEnd: -1,
+        pauseStart: -1,
+        totalPause: 0,
+
         fightBuffs: {},
         totalDamage: 0,
         staggerCount: 0,
@@ -102,7 +114,7 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
         );
 
         return {
-          inFight,
+          status: inFight ? 'inFight' : 'idle',
           fightEnd: parseTimestamp(timestamp),
           fightBuffs: finishedBuffs,
         };
@@ -114,8 +126,8 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
    * Handles only a small number of buffs(cuz it's complex to handle all buffs; their effect varies a lot).
    */
   appendBuffLog: ({ data, timestamp }) => {
-    const { inFight } = get();
-    if (!inFight) return;
+    const { status } = get();
+    if (status === 'idle') return;
     if (data.type !== 'Buff') return;
 
     const { addOrRemove, buffId } = data;
@@ -180,10 +192,44 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
     set(({ hitCount }) => ({ hitCount: hitCount + 1 }));
   },
 
-  fightDuration: () => {
-    const { inFight, fightStart, fightEnd } = get();
+  appendPlayInterfaceLog: ({ data, timestamp }) => {
+    const { status } = get();
+    if (status === 'idle') return;
 
-    return ((inFight ? Date.now() : fightEnd) - fightStart) / 1000;
+    if (data.type !== 'PlayInterfaceAnimation') return;
+
+    if (
+      status === 'inFight' &&
+      data.viewName !== 'BattleView' &&
+      data.sequenceName === 'Start'
+    ) {
+      set({ pauseStart: parseTimestamp(timestamp), status: 'inFightPaused' });
+    } else if (
+      status === 'inFightPaused' &&
+      data.viewName === 'BattleView' &&
+      (data.sequenceName === 'Start' || data.sequenceName === 'ShowView')
+    ) {
+      set(({ pauseStart, totalPause }) => ({
+        status: 'inFight',
+        totalPause: totalPause + parseTimestamp(timestamp) - pauseStart,
+      }));
+    }
+  },
+
+  pauseDuration: () => {
+    const { status, pauseStart, totalPause } = get();
+
+    return (
+      totalPause + (status === 'inFightPaused' ? Date.now() - pauseStart : 0)
+    );
+  },
+
+  fightDuration: () => {
+    const { status, fightStart, fightEnd, pauseDuration } = get();
+
+    return (
+      (status !== 'idle' ? Date.now() : fightEnd) - fightStart - pauseDuration()
+    );
   },
 
   calcAccBuffTime: (buffKey) => {

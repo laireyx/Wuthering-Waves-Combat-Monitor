@@ -7,6 +7,7 @@ import { ClientLog } from '@common/types/logReader';
 
 import parseBattleLog from './parse/clientLog/battle';
 import parseCombatInfoLog from './parse/clientLog/combatInfo';
+import parseUiCoreLog from './parse/clientLog/uiCore';
 import { LogLineMatchResult } from './types';
 import { Handler, Module } from '../utils/decorators';
 
@@ -84,6 +85,8 @@ export default class IO implements IPCLogReader {
             return parseBattleLog(groups);
           case 'CombatInfo':
             return parseCombatInfoLog(groups);
+          case 'UiCore':
+            return parseUiCoreLog(groups);
           default:
             return;
         }

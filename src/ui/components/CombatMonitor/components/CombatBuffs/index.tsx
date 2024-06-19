@@ -25,10 +25,7 @@ export default function CombatBuffs() {
               <IndicatorCaption>
                 {KnownBuffMap[buffKey].buffName}
               </IndicatorCaption>
-              {Math.round(
-                (calcAccBuffTime(buffKey) / 1000 / fightDuration()) * 100,
-              )}
-              %
+              {Math.round((calcAccBuffTime(buffKey) / fightDuration()) * 100)}%
             </Indicator>
           ))}
         </div>

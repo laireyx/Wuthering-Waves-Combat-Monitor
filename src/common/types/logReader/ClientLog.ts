@@ -1,5 +1,6 @@
 import { BattleLog } from './Battle';
 import { CombatInfoLog } from './CombatInfo';
+import { UiCoreLog } from './UiCore';
 
 export interface ClientLogImpl {
   timestamp: string;
@@ -8,4 +9,4 @@ export interface ClientLogImpl {
   msg: string;
 }
 
-export type ClientLog = BattleLog | CombatInfoLog;
+export type ClientLog = BattleLog | CombatInfoLog | UiCoreLog;
