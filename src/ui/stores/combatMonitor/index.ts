@@ -6,7 +6,8 @@ import {
   KnownBuffs,
 } from '@common/types/logReader/CombatInfo/buffs';
 
-import parseTimestamp from '../utils/parseTimestamp';
+import { FightStatus } from './types';
+import parseTimestamp from '../../utils/parseTimestamp';
 
 interface Buff {
   activated: boolean;
@@ -15,7 +16,7 @@ interface Buff {
 }
 
 interface CombatMonitorStore {
-  status: 'inFight' | 'inFightPaused' | 'idle';
+  status: FightStatus;
 
   fightStart: number;
   fightEnd: number;
@@ -38,6 +39,7 @@ interface CombatMonitorStore {
 
   appendPlayInterfaceLog: (log: UiCoreLog) => void;
 
+  inFight: () => boolean;
   pauseDuration: () => number;
   fightDuration: () => number;
   calcAccBuffTime: (buffKey: keyof KnownBuffs) => number;
@@ -126,8 +128,8 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
    * Handles only a small number of buffs(cuz it's complex to handle all buffs; their effect varies a lot).
    */
   appendBuffLog: ({ data, timestamp }) => {
-    const { status } = get();
-    if (status === 'idle') return;
+    const { inFight } = get();
+    if (!inFight()) return;
     if (data.type !== 'Buff') return;
 
     const { addOrRemove, buffId } = data;
@@ -194,7 +196,6 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
 
   appendPlayInterfaceLog: ({ data, timestamp }) => {
     const { status } = get();
-    if (status === 'idle') return;
 
     if (data.type !== 'PlayInterfaceAnimation') return;
 
@@ -216,6 +217,11 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
     }
   },
 
+  inFight: () => {
+    const { status } = get();
+    return status !== 'idle';
+  },
+
   pauseDuration: () => {
     const { status, pauseStart, totalPause } = get();
 
@@ -225,11 +231,9 @@ const useCombatMonitorStore = create<CombatMonitorStore>((set, get) => ({
   },
 
   fightDuration: () => {
-    const { status, fightStart, fightEnd, pauseDuration } = get();
+    const { inFight, fightStart, fightEnd, pauseDuration } = get();
 
-    return (
-      (status !== 'idle' ? Date.now() : fightEnd) - fightStart - pauseDuration()
-    );
+    return (inFight() ? Date.now() : fightEnd) - fightStart - pauseDuration();
   },
 
   calcAccBuffTime: (buffKey) => {
