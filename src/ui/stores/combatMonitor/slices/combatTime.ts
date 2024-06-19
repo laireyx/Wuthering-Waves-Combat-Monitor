@@ -29,12 +29,12 @@ export const createCombatTimeSlice: StateCreator<
   },
 
   calcAccBuffTime: (buffKey) => {
-    const { fightBuffs } = get();
+    const { fightBuffs, pauseDuration } = get();
 
     const targetBuff = fightBuffs[buffKey];
     if (!targetBuff) return 0;
 
-    const accumulatedTime = targetBuff.accumulatedTime;
+    const accumulatedTime = targetBuff.accumulatedTime - pauseDuration();
     return (
       accumulatedTime +
       (targetBuff.activated ? Date.now() - targetBuff.activationTime : 0)
