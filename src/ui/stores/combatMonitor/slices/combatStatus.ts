@@ -93,7 +93,7 @@ export const createCombatStatusSlice: StateCreator<
    * Handles only a small number of buffs(cuz it's complex to handle all buffs; their effect varies a lot).
    */
   appendBuffLog: ({ data, timestamp }) => {
-    const { inFight } = get();
+    const { inFight, pauseDuration } = get();
     if (!inFight()) return;
     if (data.type !== 'Buff') return;
 
@@ -105,7 +105,7 @@ export const createCombatStatusSlice: StateCreator<
       const { activationTime, accumulatedTime } = fightBuffs[buffId] ?? {
         activated: false,
         activationTime: parseTimestamp(timestamp),
-        accumulatedTime: 0,
+        accumulatedTime: pauseDuration(parseTimestamp(timestamp)),
       };
 
       if (addOrRemove === 'add') {

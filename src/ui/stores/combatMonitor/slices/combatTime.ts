@@ -14,27 +14,26 @@ export const createCombatTimeSlice: StateCreator<
   pauseStart: -1,
   totalPause: 0,
 
-  pauseDuration: () => {
+  pauseDuration: (moment = Date.now()) => {
     const { status, pauseStart, totalPause } = get();
 
-    return (
-      totalPause + (status === 'inFightPaused' ? Date.now() - pauseStart : 0)
-    );
+    return totalPause + (status === 'inFightPaused' ? moment - pauseStart : 0);
   },
 
-  fightDuration: () => {
+  fightDuration: (moment = Date.now()) => {
     const { inFight, fightStart, fightEnd, pauseDuration } = get();
 
-    return (inFight() ? Date.now() : fightEnd) - fightStart - pauseDuration();
+    return (inFight() ? moment : fightEnd) - fightStart - pauseDuration(moment);
   },
 
-  calcAccBuffTime: (buffKey) => {
+  calcAccBuffTime: (buffKey, moment?: number) => {
     const { fightBuffs, pauseDuration } = get();
 
     const targetBuff = fightBuffs[buffKey];
     if (!targetBuff) return 0;
 
-    const accumulatedTime = targetBuff.accumulatedTime - pauseDuration();
+    const accumulatedTime = targetBuff.accumulatedTime - pauseDuration(moment);
+
     return (
       accumulatedTime +
       (targetBuff.activated ? Date.now() - targetBuff.activationTime : 0)

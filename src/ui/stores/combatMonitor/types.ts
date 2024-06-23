@@ -37,9 +37,9 @@ export interface CombatTimeSlice {
   pauseStart: number;
   totalPause: number;
 
-  pauseDuration: () => number;
-  fightDuration: () => number;
-  calcAccBuffTime: (buffKey: keyof KnownBuffs) => number;
+  pauseDuration: (moment?: number) => number;
+  fightDuration: (moment?: number) => number;
+  calcAccBuffTime: (buffKey: keyof KnownBuffs, moment?: number) => number;
 }
 
 export interface CombatMonitorStore
