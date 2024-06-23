@@ -33,7 +33,11 @@ export const KnownBuffMap = {
   },
   '2002201001': {
     buffType: 'CharacterOutro',
-    buffName: 'VerinaOutro',
+    buffName: 'VerinaOutro-Heal',
+  },
+  '2002201011': {
+    buffType: 'CharacterOutro',
+    buffName: 'VerinaOutro-DMG',
   },
   // Encore
   '1203904001': {

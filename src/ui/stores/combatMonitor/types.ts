@@ -33,6 +33,7 @@ export interface CombatCharacterStatusSlice {
   ) => void;
 
   clearAllBuffs: (timestamp: string) => void;
+  adjustPausedBuffTimes: (pausedTime: number) => void;
 
   addHitCountToCharacter: (characterName: CharacterName) => void;
   addQTECountToCharacter: (characterName: CharacterName) => void;

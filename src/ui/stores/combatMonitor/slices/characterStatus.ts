@@ -17,7 +17,7 @@ export const createCombatCharacterStatusSlice: StateCreator<
   characters: {},
 
   applyBuffToCharacter: (characterName, buffId, timestamp) =>
-    set(({ characters, pauseDuration }) => {
+    set(({ characters }) => {
       characters[characterName] =
         characters[characterName] ??
         ({
@@ -29,7 +29,7 @@ export const createCombatCharacterStatusSlice: StateCreator<
       const { buffRecord } = characters[characterName];
 
       const { accumulatedTime } = buffRecord[buffId] ?? {
-        accumulatedTime: pauseDuration(parseTimestamp(timestamp)),
+        accumulatedTime: 0,
       };
 
       buffRecord[buffId] = {
@@ -42,7 +42,7 @@ export const createCombatCharacterStatusSlice: StateCreator<
     }),
 
   removeBuffFromCharacter: (characterName, buffId, timestamp) =>
-    set(({ characters, pauseDuration }) => {
+    set(({ characters }) => {
       characters[characterName] =
         characters[characterName] ??
         ({
@@ -57,7 +57,7 @@ export const createCombatCharacterStatusSlice: StateCreator<
         buffId
       ] ?? {
         activated: false,
-        accumulatedTime: pauseDuration(parseTimestamp(timestamp)),
+        accumulatedTime: 0,
       };
 
       // buff removed, but not activated in this combat.
@@ -89,6 +89,27 @@ export const createCombatCharacterStatusSlice: StateCreator<
               activationTime,
               accumulatedTime:
                 accumulatedTime + parseTimestamp(timestamp) - activationTime,
+            };
+          }
+        }
+      }
+
+      return { characters: { ...characters } };
+    }),
+
+  adjustPausedBuffTimes: (pausedTime) =>
+    set(({ characters }) => {
+      for (const characterName in characters) {
+        const { buffRecord } = characters[characterName];
+        for (const buffName in buffRecord) {
+          const { activated, activationTime, accumulatedTime } =
+            buffRecord[buffName];
+
+          if (activated) {
+            buffRecord[buffName] = {
+              activated,
+              activationTime,
+              accumulatedTime: accumulatedTime - pausedTime,
             };
           }
         }
@@ -132,17 +153,20 @@ export const createCombatCharacterStatusSlice: StateCreator<
     buffId,
     moment = Date.now(),
   ) => {
-    const { characters, pauseDuration } = get();
+    const { characters, status, pauseStart } = get();
     const { buffRecord } = characters[characterName];
 
     const targetBuff = buffRecord[buffId];
     if (!targetBuff) return 0;
 
-    const accumulatedTime = targetBuff.accumulatedTime - pauseDuration(moment);
+    const accumulatedTime = targetBuff.accumulatedTime;
 
     return (
       accumulatedTime +
-      (targetBuff.activated ? moment - targetBuff.activationTime : 0)
+      (targetBuff.activated ? moment - targetBuff.activationTime : 0) -
+      (targetBuff.activated && status === 'inFightPaused'
+        ? moment - pauseStart
+        : 0)
     );
   },
 });

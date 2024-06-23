@@ -60,14 +60,17 @@ export const createCombatLogHandlerSlice: StateCreator<
   },
 
   appendPlayInterfaceLog: ({ data, timestamp }) => {
-    const { status } = get();
+    const { status, adjustPausedBuffTimes } = get();
 
     if (data.type !== 'PlayInterfaceAnimation') return;
 
     if (
       status === 'inFight' &&
+      data.sequenceName === 'Start' &&
       data.viewName !== 'BattleView' &&
-      data.sequenceName === 'Start'
+      data.viewName !== 'ItemHintView' &&
+      data.viewName !== 'SoundAreaPlayTips' &&
+      data.viewName !== 'CountDownFloatTips'
     ) {
       set({ pauseStart: parseTimestamp(timestamp), status: 'inFightPaused' });
     } else if (
@@ -75,10 +78,15 @@ export const createCombatLogHandlerSlice: StateCreator<
       data.viewName === 'BattleView' &&
       (data.sequenceName === 'Start' || data.sequenceName === 'ShowView')
     ) {
-      set(({ pauseStart, totalPause }) => ({
-        status: 'inFight',
-        totalPause: totalPause + parseTimestamp(timestamp) - pauseStart,
-      }));
+      set(({ pauseStart, totalPause }) => {
+        const pausedTime = parseTimestamp(timestamp) - pauseStart;
+        adjustPausedBuffTimes(pausedTime);
+
+        return {
+          status: 'inFight',
+          totalPause: totalPause + pausedTime,
+        };
+      });
     }
   },
 });

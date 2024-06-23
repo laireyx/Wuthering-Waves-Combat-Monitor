@@ -4,6 +4,7 @@ import {
 } from '@common/types/logReader/CombatInfo/buffs';
 
 import useCombatMonitorStore from '../../../../stores/combatMonitor';
+import realCharName from '../../../../utils/realCharName';
 import Foldable from '../Foldable';
 import Indicator from '../Indicator';
 import IndicatorCaption from '../Indicator/Caption';
@@ -17,11 +18,12 @@ interface CharacterInfoProps {
 export default function CharacterInfo({ characterName }: CharacterInfoProps) {
   const { characters, fightDuration, getActualBuffUptimeOfCharacter } =
     useCombatMonitorStore();
+
   const { buffRecord, hitCount, qteCount } = characters[characterName];
   const buffIds = Object.keys(buffRecord) as (keyof KnownBuffs)[];
 
   return (
-    <Foldable title={characterName}>
+    <Foldable title={realCharName(characterName)}>
       <div className={characterDetailsStyle}>
         <Indicator>
           <IndicatorCaption>Hit Count</IndicatorCaption>
