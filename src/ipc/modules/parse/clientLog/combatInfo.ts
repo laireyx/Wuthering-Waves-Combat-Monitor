@@ -11,15 +11,14 @@ function validateBuffMatchResult(
   buffId: string;
   buffCreatorId?: string;
   buffTargetId: string;
-  buffDescription: string;
+  buffDescription?: string;
   buffReason?: string;
   handle?: string;
 } {
   return !!(
     matchGroup?.addOrRemove &&
     matchGroup?.buffId &&
-    matchGroup?.buffTargetId &&
-    matchGroup?.buffDescription
+    matchGroup?.buffTargetId
   );
 }
 
@@ -88,7 +87,7 @@ export default function parseCombatInfoLog({
   if (msg.startsWith('[Buff]')) {
     const { groups } =
       msg.match(
-        /本地(?<addOrRemove>添加|移除)buff \[buffId:(?<buffId>.*?)\](\[创建者id: (?<buffCreatorId>.*?)\])?\[持有者: (?<buffTargetId>.*?)\].*?\[原因: (?<buffReason>.*?)\].*?\[handle: (?<handle>.*?)\].*?\[说明: (?<buffDescription>.*?)\]/,
+        /本地(?<addOrRemove>添加|移除)buff \[buffId: (?<buffId>.*?)\](\[创建者id: (?<buffCreatorId>.*?)\])?\[持有者: (?<buffTargetId>.*?)\].*?\[原因: (?<buffReason>.*?)\].*?\[handle: (?<handle>.*?)\].*?\[说明: (?<buffDescription>.*?)\]/,
       ) ?? {};
 
     const entity = parseEntity(msg);

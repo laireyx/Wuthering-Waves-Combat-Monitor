@@ -17,7 +17,7 @@ export interface CombatInfoLogDataBuff {
   buffId: keyof KnownBuffs | (number & Record<never, never>);
   buffCreatorId?: number;
   buffTargetId: number;
-  buffDescription: string;
+  buffDescription?: string;
   buffReason?: string;
   handle?: number;
 }
