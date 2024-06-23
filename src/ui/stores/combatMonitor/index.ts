@@ -1,13 +1,15 @@
 import { create } from 'zustand';
 
-import { createCombatStatusSlice } from './slices/combatStatus';
-import { createCombatTimeSlice } from './slices/combatTime';
+import { createCombatCharacterStatusSlice } from './slices/characterStatus';
+import { createCombatGlobalStatusSlice } from './slices/globalStatus';
+import { createCombatLogHandlerSlice } from './slices/logHandler';
 import { CombatMonitorStore } from './types';
 
 const useCombatMonitorStore = create<CombatMonitorStore>(
   (set, get, ...rest) => ({
-    ...createCombatStatusSlice(set, get, ...rest),
-    ...createCombatTimeSlice(set, get, ...rest),
+    ...createCombatCharacterStatusSlice(set, get, ...rest),
+    ...createCombatGlobalStatusSlice(set, get, ...rest),
+    ...createCombatLogHandlerSlice(set, get, ...rest),
   }),
 );
 

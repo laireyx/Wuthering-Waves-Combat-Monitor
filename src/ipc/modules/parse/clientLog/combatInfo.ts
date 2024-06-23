@@ -113,7 +113,7 @@ export default function parseCombatInfoLog({
         type: 'Buff',
         entity,
         addOrRemove: addOrRemove === '添加' ? 'add' : 'remove',
-        buffId: parseInt(buffId),
+        buffId,
         buffCreatorId: buffCreatorId ? parseInt(buffCreatorId) : undefined,
         buffTargetId: parseInt(buffTargetId),
         buffDescription,

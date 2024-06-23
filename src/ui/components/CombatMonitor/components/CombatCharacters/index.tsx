@@ -1,0 +1,21 @@
+import CharacterInfo from './CharacterInfo';
+import useCombatMonitorStore from '../../../../stores/combatMonitor';
+
+import { combatCharacterTitleStyle, combatCharactersStyle } from './index.css';
+
+export default function CombatCharacters() {
+  const { characters, fightDuration } = useCombatMonitorStore();
+
+  return (
+    fightDuration() > 0 && (
+      <>
+        <p className={combatCharacterTitleStyle}>Character Status</p>
+        <div className={combatCharactersStyle}>
+          {Object.keys(characters).map((characterName) => (
+            <CharacterInfo key={characterName} characterName={characterName} />
+          ))}
+        </div>
+      </>
+    )
+  );
+}

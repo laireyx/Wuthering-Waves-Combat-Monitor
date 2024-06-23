@@ -14,7 +14,7 @@ export interface CombatInfoLogDataBuff {
 
   entity: Entity;
   addOrRemove: 'add' | 'remove';
-  buffId: keyof KnownBuffs | (number & Record<never, never>);
+  buffId: keyof KnownBuffs | (string & Record<never, never>);
   buffCreatorId?: number;
   buffTargetId: number;
   buffDescription?: string;

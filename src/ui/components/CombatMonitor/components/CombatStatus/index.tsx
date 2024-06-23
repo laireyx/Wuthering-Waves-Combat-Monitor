@@ -10,7 +10,7 @@ import {
 } from './index.css';
 
 export default function CombatStatus() {
-  const { status, inFight, fightDuration, staggerCount, qteCount, hitCount } =
+  const { status, inFight, fightDuration, staggerCount } =
     useCombatMonitorStore();
 
   const durationInSec = fightDuration() / 1000;
@@ -35,15 +35,6 @@ export default function CombatStatus() {
         <Indicator>
           <IndicatorCaption>Stagger Count</IndicatorCaption>
           {staggerCount > 0 ? staggerCount : '-'}
-        </Indicator>
-        <Indicator>
-          <IndicatorCaption>QTE Count</IndicatorCaption>
-          {qteCount > 0 ? qteCount : '-'}
-        </Indicator>
-
-        <Indicator>
-          <IndicatorCaption>Hit Count</IndicatorCaption>
-          {hitCount > 0 ? hitCount : '-'}
         </Indicator>
       </div>
     </>

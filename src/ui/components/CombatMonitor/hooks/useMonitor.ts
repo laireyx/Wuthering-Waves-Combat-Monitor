@@ -30,6 +30,7 @@ export default function useMonitor() {
           setLastReadPos(position);
           setReadFailed(false);
         } catch (err) {
+          console.error(err);
           setReadFailed(true);
         }
       },

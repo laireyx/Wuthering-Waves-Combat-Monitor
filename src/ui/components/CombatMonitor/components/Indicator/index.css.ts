@@ -10,7 +10,7 @@ export const indicatorStyle = style({
   padding: '2px 4px',
   borderRadius: '4px',
 
-  background: 'black',
+  background: '#111a',
   color: 'white',
 });
 
