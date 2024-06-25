@@ -10,17 +10,81 @@ interface KnownBuff {
 }
 
 export const KnownBuffMap = {
+  '280001002': {
+    buffType: 'EchoEffect',
+    buffName: 'ThunderingMephis',
+  },
+  '280002002': {
+    buffType: 'EchoEffect',
+    buffName: 'InfernoRider',
+  },
   '280003005': {
     buffType: 'EchoEffect',
     buffName: 'BellBorne',
   },
-  '30000008001': {
+  '280004002': {
+    buffType: 'EchoEffect',
+    buffName: 'TempestMephis',
+  },
+  '280005002': {
+    buffType: 'EchoEffect',
+    buffName: 'Crownless',
+  },
+  '280006002': {
+    buffType: 'EchoEffect',
+    buffName: 'FeilianBeringal',
+  },
+  '280007002': {
+    buffType: 'EchoEffect',
+    buffName: 'LampyMyriad',
+  },
+  '280008002': {
+    buffType: 'EchoEffect',
+    buffName: 'MourningAix',
+  },
+  '280009007': {
+    buffType: 'EchoEffect',
+    buffName: 'MechAbomination',
+  },
+  '280010002': {
+    buffType: 'EchoEffect',
+    buffName: 'ImpermHeron',
+  },
+  '30000001002': {
+    buffType: 'EchoSonata',
+    buffName: 'FreezingFrost',
+  },
+  '30000002002': {
+    buffType: 'EchoSonata',
+    buffName: 'MoltenRift',
+  },
+  '30000003004': {
+    buffType: 'EchoSonata',
+    buffName: 'VoidThunder',
+  },
+  '30000004002': {
+    buffType: 'EchoSonata',
+    buffName: 'SierraGale',
+  },
+  '30000005002': {
+    buffType: 'EchoSonata',
+    buffName: 'CelestialLight',
+  },
+  '30000006002': {
+    buffType: 'EchoSonata',
+    buffName: 'Sunsinking',
+  },
+  '30000007002': {
+    buffType: 'EchoSonata',
+    buffName: 'RejuGlow',
+  },
+  '30000008002': {
     buffType: 'EchoSonata',
     buffName: 'Moonlit',
   },
-  '30000007001': {
+  '30000009002': {
     buffType: 'EchoSonata',
-    buffName: 'RejuGlow',
+    buffName: 'LingeringTunes',
   },
   // Verina
   '1503952001': {
