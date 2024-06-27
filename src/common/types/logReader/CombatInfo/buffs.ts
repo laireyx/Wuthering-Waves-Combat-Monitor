@@ -7,6 +7,7 @@ interface KnownBuff {
     | 'CharacterPassive'
     | 'CharacterResonance';
   buffName: string;
+  isPartyBuff?: true;
 }
 
 export const KnownBuffMap = {
@@ -21,6 +22,7 @@ export const KnownBuffMap = {
   '280003005': {
     buffType: 'EchoEffect',
     buffName: 'BellBorne',
+    isPartyBuff: true,
   },
   '280004002': {
     buffType: 'EchoEffect',
@@ -77,6 +79,7 @@ export const KnownBuffMap = {
   '30000007002': {
     buffType: 'EchoSonata',
     buffName: 'RejuGlow',
+    isPartyBuff: true,
   },
   '30000008002': {
     buffType: 'EchoSonata',
@@ -94,10 +97,12 @@ export const KnownBuffMap = {
   '1503031011': {
     buffType: 'CharacterPassive',
     buffName: 'GiftOfNature',
+    isPartyBuff: true,
   },
   '1503904001': {
     buffType: 'CharacterResonance',
     buffName: 'VerinaR4',
+    isPartyBuff: true,
   },
   '2002201001': {
     buffType: 'CharacterOutro',
@@ -106,11 +111,13 @@ export const KnownBuffMap = {
   '2002201011': {
     buffType: 'CharacterOutro',
     buffName: 'VerinaOutro-DMG',
+    isPartyBuff: true,
   },
   // Encore
   '1203904002': {
     buffType: 'CharacterResonance',
     buffName: 'EncoreR4',
+    isPartyBuff: true,
   },
   '1203906002': {
     buffType: 'CharacterResonance',
@@ -132,6 +139,7 @@ export const KnownBuffMap = {
   '1204060002': {
     buffType: 'CharacterResonance',
     buffName: 'MortefiR6',
+    isPartyBuff: true,
   },
   '2002200811': {
     buffType: 'CharacterOutro',
@@ -153,6 +161,7 @@ export const KnownBuffMap = {
   '1103426000': {
     buffType: 'CharacterResonance',
     buffName: 'BaizhiR6',
+    isPartyBuff: true,
   },
   // Danjin
   '1602300008': {
@@ -178,14 +187,11 @@ export const KnownBuffMap = {
   '1602310702': {
     buffType: 'CharacterResonance',
     buffName: 'DanjinR6',
+    isPartyBuff: true,
   },
   '2002200511': {
     buffType: 'CharacterOutro',
     buffName: 'DanjinOutro',
-  },
-  '1602310701': {
-    buffType: 'CharacterResonance',
-    buffName: 'DanjinR6',
   },
   // Sanhua
   '1102901002': {
@@ -195,6 +201,7 @@ export const KnownBuffMap = {
   '1102906002': {
     buffType: 'CharacterResonance',
     buffName: 'SanhuaR6',
+    isPartyBuff: true,
   },
   '1102951002': {
     buffType: 'CharacterPassive',
@@ -211,11 +218,13 @@ export const KnownBuffMap = {
   '1102906001': {
     buffType: 'CharacterResonance',
     buffName: 'SanhuaR6',
+    isPartyBuff: true,
   },
   // Taoqi
   '1601951001': {
     buffType: 'CharacterPassive',
     buffName: 'SteadfastProtection',
+    isPartyBuff: true,
   },
   '2002200701': {
     buffType: 'CharacterOutro',
@@ -259,6 +268,7 @@ export const KnownBuffMap = {
   '2002201701': {
     buffType: 'CharacterOutro',
     buffName: 'YinlinOutro',
+    isPartyBuff: true,
   },
   // Yangyang
   '1402802002': {
@@ -272,6 +282,7 @@ export const KnownBuffMap = {
   '1402906001': {
     buffType: 'CharacterResonance',
     buffName: 'YangyangR6',
+    isPartyBuff: true,
   },
   // Chixia
   '1202951012': {
@@ -285,6 +296,7 @@ export const KnownBuffMap = {
   '1202952002': {
     buffType: 'CharacterResonance',
     buffName: 'ChixiaR6',
+    isPartyBuff: true,
   },
   // Yuanwu
   '1303700003': {
@@ -294,10 +306,26 @@ export const KnownBuffMap = {
   '1303700014': {
     buffType: 'CharacterResonance',
     buffName: 'YuanwuR4',
+    isPartyBuff: true,
   },
   '1303700006': {
     buffType: 'CharacterResonance',
     buffName: 'YuanwuR6',
+    isPartyBuff: true,
+  },
+  // Lingyang
+  '1104101002': {
+    buffType: 'CharacterPassive',
+    buffName: 'StridingLion',
+  },
+  '1104101050': {
+    buffType: 'CharacterPassive',
+    buffName: 'LionsVigor',
+  },
+  '1104004002': {
+    buffType: 'CharacterResonance',
+    buffName: 'LingyangR4',
+    isPartyBuff: true,
   },
   // Rover(Spectro)
   '1502901002': {
@@ -307,10 +335,26 @@ export const KnownBuffMap = {
   '1502904002': {
     buffType: 'CharacterResonance',
     buffName: 'RoverSpectroR4',
+    isPartyBuff: true,
   },
   '1502906002': {
     buffType: 'CharacterResonance',
     buffName: 'RoverSpectroR6',
+    isPartyBuff: true,
+  },
+  // Rover(Havoc)
+  '1604001003': {
+    buffType: 'CharacterPassive',
+    buffName: 'DarkSurge',
+  },
+  '1604001004': {
+    buffType: 'CharacterPassive',
+    buffName: 'DarkSurge',
+  },
+  '1604007001': {
+    buffType: 'CharacterResonance',
+    buffName: 'RoverHavocR4',
+    isPartyBuff: true,
   },
 } as const satisfies Record<string, KnownBuff>;
 
