@@ -11,10 +11,14 @@ export const createCombatGlobalStatusSlice: StateCreator<
   CombatGlobalStatusSlice
 > = (set, get) => ({
   status: 'idle',
+  partyBuffRecord: {},
 
   setFightStatus: ({ inFight, timestamp }) => {
     if (inFight === true) {
-      const { fightEnd: prevFightEnd } = get();
+      const { status: prevStatus, fightEnd: prevFightEnd } = get();
+
+      // already in fight
+      if (prevStatus !== 'idle') return;
 
       // continuous battle
       if (parseTimestamp(timestamp) - prevFightEnd < 1000) {
@@ -34,14 +38,24 @@ export const createCombatGlobalStatusSlice: StateCreator<
         staggerCount: 0,
       });
     } else {
-      set(({ clearAllBuffs }) => {
-        clearAllBuffs(timestamp);
+      set(
+        ({
+          clearAllCharacterBuffs,
+          clearAllPartyBuffs,
+          status: prevStatus,
+        }) => {
+          clearAllCharacterBuffs(timestamp);
+          clearAllPartyBuffs(timestamp);
 
-        return {
-          status: inFight ? 'inFight' : 'idle',
-          fightEnd: parseTimestamp(timestamp),
-        };
-      });
+          // already idle
+          if (prevStatus === 'idle') return {};
+
+          return {
+            status: inFight ? 'inFight' : 'idle',
+            fightEnd: parseTimestamp(timestamp),
+          };
+        },
+      );
     }
   },
 
@@ -69,5 +83,98 @@ export const createCombatGlobalStatusSlice: StateCreator<
     const { inFight, fightStart, fightEnd, pauseDuration } = get();
 
     return (inFight() ? moment : fightEnd) - fightStart - pauseDuration(moment);
+  },
+
+  applyBuffToParty: (buffId, timestamp) =>
+    set(({ partyBuffRecord }) => {
+      const { accumulatedTime } = partyBuffRecord[buffId] ?? {
+        accumulatedTime: 0,
+      };
+
+      partyBuffRecord[buffId] = {
+        activated: true,
+        activationTime: parseTimestamp(timestamp),
+        accumulatedTime,
+      };
+
+      return { partyBuffRecord: { ...partyBuffRecord } };
+    }),
+
+  removeBuffFromParty: (buffId, timestamp) =>
+    set(({ partyBuffRecord }) => {
+      const { activated, activationTime, accumulatedTime } = partyBuffRecord[
+        buffId
+      ] ?? {
+        activated: false,
+        accumulatedTime: 0,
+      };
+
+      // buff removed, but not activated in this combat.
+      // skip it because we've already finished it before.
+      if (!activated) return {};
+
+      const currentActivation = parseTimestamp(timestamp) - activationTime;
+
+      partyBuffRecord[buffId] = {
+        activated: false,
+        activationTime,
+        accumulatedTime: accumulatedTime + currentActivation,
+      };
+
+      return { partyBuffRecord: { ...partyBuffRecord } };
+    }),
+
+  clearAllPartyBuffs: (timestamp) =>
+    set(({ partyBuffRecord }) => {
+      for (const buffName in partyBuffRecord) {
+        const { activated, activationTime, accumulatedTime } =
+          partyBuffRecord[buffName];
+
+        if (activated) {
+          partyBuffRecord[buffName] = {
+            activated: false,
+            activationTime,
+            accumulatedTime:
+              accumulatedTime + parseTimestamp(timestamp) - activationTime,
+          };
+        }
+      }
+
+      return { partyBuffRecord: { ...partyBuffRecord } };
+    }),
+
+  adjustPausedPartyBuffTimes: (pausedTime) =>
+    set(({ partyBuffRecord }) => {
+      for (const buffName in partyBuffRecord) {
+        const { activated, activationTime, accumulatedTime } =
+          partyBuffRecord[buffName];
+
+        if (activated) {
+          partyBuffRecord[buffName] = {
+            activated,
+            activationTime,
+            accumulatedTime: accumulatedTime - pausedTime,
+          };
+        }
+      }
+
+      return { partyBuffRecord: { ...partyBuffRecord } };
+    }),
+
+  getActualBuffUptimeOfParty: (buffId, moment = Date.now()) => {
+    const { partyBuffRecord, status, pauseStart } = get();
+
+    const targetBuff = partyBuffRecord[buffId];
+    if (!targetBuff) return 0;
+
+    const accumulatedTime = targetBuff.accumulatedTime;
+
+    return (
+      accumulatedTime +
+      (targetBuff.activated ? moment - targetBuff.activationTime : 0) -
+      (targetBuff.activated && status === 'inFightPaused'
+        ? moment - pauseStart
+        : 0)
+    );
   },
 });

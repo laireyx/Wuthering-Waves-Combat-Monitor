@@ -1,5 +1,6 @@
 import CombatCharacters from './components/CombatCharacters';
 import CombatStatus from './components/CombatStatus';
+import PartyBuffs from './components/PartyBuffs';
 import useMonitor from './hooks/useMonitor';
 import Card from '../Card';
 import Vertical from '../Vertical';
@@ -13,6 +14,7 @@ export default function CombatMonitor() {
     <Card>
       <Vertical className={combatMonitorStyle}>
         <CombatStatus />
+        <PartyBuffs />
         <CombatCharacters />
       </Vertical>
     </Card>

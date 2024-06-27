@@ -1,6 +1,9 @@
 import { StateCreator } from 'zustand';
 
-import { KnownBuffKeys } from '@common/types/logReader/CombatInfo/buffs';
+import {
+  KnownBuffMap,
+  KnownBuffs,
+} from '@common/types/logReader/CombatInfo/buffs';
 
 import parseTimestamp from '../../../utils/parseTimestamp';
 
@@ -16,18 +19,31 @@ export const createCombatLogHandlerSlice: StateCreator<
    * Handles only a small number of buffs(cuz it's complex to handle all buffs; their effect varies a lot).
    */
   appendBuffLog: ({ data, timestamp }) => {
-    const { inFight, applyBuffToCharacter, removeBuffFromCharacter } = get();
+    const {
+      inFight,
+      applyBuffToCharacter,
+      removeBuffFromCharacter,
+      applyBuffToParty,
+      removeBuffFromParty,
+    } = get();
     if (!inFight()) return;
     if (data.type !== 'Buff') return;
 
     const { addOrRemove, buffId, entity } = data;
 
     if (entity.type !== 'Player') return;
-    if (!KnownBuffKeys.includes(buffId.toString())) return;
+    if (!(buffId in KnownBuffMap)) return;
 
-    if (addOrRemove === 'add')
-      applyBuffToCharacter(entity.name, buffId, timestamp);
-    else removeBuffFromCharacter(entity.name, buffId, timestamp);
+    const { isPartyBuff } = KnownBuffMap[buffId as keyof KnownBuffs];
+
+    if (isPartyBuff) {
+      if (addOrRemove === 'add') applyBuffToParty(buffId, timestamp);
+      else removeBuffFromParty(buffId, timestamp);
+    } else {
+      if (addOrRemove === 'add')
+        applyBuffToCharacter(entity.name, buffId, timestamp);
+      else removeBuffFromCharacter(entity.name, buffId, timestamp);
+    }
   },
 
   appendHitLog: ({ data }) => {
@@ -60,7 +76,11 @@ export const createCombatLogHandlerSlice: StateCreator<
   },
 
   appendPlayInterfaceLog: ({ data, timestamp }) => {
-    const { status, adjustPausedBuffTimes } = get();
+    const {
+      status,
+      adjustPausedCharacterBuffTimes,
+      adjustPausedPartyBuffTimes,
+    } = get();
 
     if (data.type !== 'PlayInterfaceAnimation') return;
 
@@ -80,7 +100,8 @@ export const createCombatLogHandlerSlice: StateCreator<
     ) {
       set(({ pauseStart, totalPause }) => {
         const pausedTime = parseTimestamp(timestamp) - pauseStart;
-        adjustPausedBuffTimes(pausedTime);
+        adjustPausedCharacterBuffTimes(pausedTime);
+        adjustPausedPartyBuffTimes(pausedTime);
 
         return {
           status: 'inFight',

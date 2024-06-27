@@ -32,8 +32,8 @@ export interface CombatCharacterStatusSlice {
     timestamp: string,
   ) => void;
 
-  clearAllBuffs: (timestamp: string) => void;
-  adjustPausedBuffTimes: (pausedTime: number) => void;
+  clearAllCharacterBuffs: (timestamp: string) => void;
+  adjustPausedCharacterBuffTimes: (pausedTime: number) => void;
 
   addHitCountToCharacter: (characterName: CharacterName) => void;
   addQTECountToCharacter: (characterName: CharacterName) => void;
@@ -47,6 +47,7 @@ export interface CombatCharacterStatusSlice {
 
 export interface CombatGlobalStatusSlice {
   status: FightStatus;
+  partyBuffRecord: Record<string, Buff>;
 
   setFightStatus: (opts: { inFight: boolean; timestamp: string }) => void;
   inFight: () => boolean;
@@ -63,6 +64,14 @@ export interface CombatGlobalStatusSlice {
 
   pauseDuration: (moment?: number) => number;
   fightDuration: (moment?: number) => number;
+
+  applyBuffToParty: (buffId: string, timestamp: string) => void;
+  removeBuffFromParty: (buffId: string, timestamp: string) => void;
+
+  clearAllPartyBuffs: (timestamp: string) => void;
+  adjustPausedPartyBuffTimes: (pausedTime: number) => void;
+
+  getActualBuffUptimeOfParty: (buffId: string, moment?: number) => number;
 }
 
 export interface CombatLogHandlerSlice {

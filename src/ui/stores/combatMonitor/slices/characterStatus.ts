@@ -75,7 +75,7 @@ export const createCombatCharacterStatusSlice: StateCreator<
       return { characters: { ...characters } };
     }),
 
-  clearAllBuffs: (timestamp) =>
+  clearAllCharacterBuffs: (timestamp) =>
     set(({ characters }) => {
       for (const characterName in characters) {
         const { buffRecord } = characters[characterName];
@@ -97,7 +97,7 @@ export const createCombatCharacterStatusSlice: StateCreator<
       return { characters: { ...characters } };
     }),
 
-  adjustPausedBuffTimes: (pausedTime) =>
+  adjustPausedCharacterBuffTimes: (pausedTime) =>
     set(({ characters }) => {
       for (const characterName in characters) {
         const { buffRecord } = characters[characterName];
