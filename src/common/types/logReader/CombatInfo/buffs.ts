@@ -412,6 +412,34 @@ export const KnownBuffMap = {
     buffName: 'RoverHavocR4',
     isPartyBuff: true,
   },
+
+  // Jinhsi
+  '1304710013': {
+    buffType: 'CharacterOutro',
+    buffName: 'JinhsiOutro',
+    isPartyBuff: true,
+  },
+
+  '1304001002': {
+    buffType: 'CharacterPassive',
+    buffName: 'Incarnation',
+    isPartyBuff: false,
+  },
+  '1304900102': {
+    buffType: 'CharacterResonance',
+    buffName: 'JinhsiR1',
+    isPartyBuff: false,
+  },
+  '1304900302': {
+    buffType: 'CharacterResonance',
+    buffName: 'JinhsiR3',
+    isPartyBuff: false,
+  },
+  '1304900410': {
+    buffType: 'CharacterResonance',
+    buffName: 'JinhsiR4',
+    isPartyBuff: true,
+  },
 } as const satisfies Record<string, KnownBuff>;
 
 export type KnownBuffs = typeof KnownBuffMap;

@@ -1,11 +1,11 @@
 export interface Entity {
   id: number;
   type:
-    | 'Animal'
-    | 'Npc'
-    | 'Monster'
-    | 'Player'
-    | 'Vision'
+    | 'Proto_Animal'
+    | 'Proto_Npc'
+    | 'Proto_Monster'
+    | 'Proto_Player'
+    | 'Proto_Vision'
     | (string & Record<never, never>);
   name: string;
 }

@@ -47,20 +47,20 @@ export interface CombatCharacterStatusSlice {
 
 export interface CombatGlobalStatusSlice {
   status: FightStatus;
-  partyBuffRecord: Record<string, Buff>;
 
   setFightStatus: (opts: { inFight: boolean; timestamp: string }) => void;
   inFight: () => boolean;
 
   // Should reset these values when fight started.
   staggerCount: number;
-  //
+  partyBuffRecord: Record<string, Buff>;
 
   fightStart: number;
   fightEnd: number;
 
   pauseStart: number;
   totalPause: number;
+  //
 
   pauseDuration: (moment?: number) => number;
   fightDuration: (moment?: number) => number;

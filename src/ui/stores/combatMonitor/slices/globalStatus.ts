@@ -11,7 +11,6 @@ export const createCombatGlobalStatusSlice: StateCreator<
   CombatGlobalStatusSlice
 > = (set, get) => ({
   status: 'idle',
-  partyBuffRecord: {},
 
   setFightStatus: ({ inFight, timestamp }) => {
     if (inFight === true) {
@@ -36,6 +35,7 @@ export const createCombatGlobalStatusSlice: StateCreator<
 
         characters: {},
         staggerCount: 0,
+        partyBuffRecord: {},
       });
     } else {
       set(
@@ -65,7 +65,7 @@ export const createCombatGlobalStatusSlice: StateCreator<
   },
 
   staggerCount: 0,
-  qteCount: 0,
+  partyBuffRecord: {},
 
   fightStart: -1,
   fightEnd: -1,

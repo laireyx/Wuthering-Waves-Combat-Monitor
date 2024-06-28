@@ -26,12 +26,13 @@ export const createCombatLogHandlerSlice: StateCreator<
       applyBuffToParty,
       removeBuffFromParty,
     } = get();
+
     if (!inFight()) return;
     if (data.type !== 'Buff') return;
 
     const { addOrRemove, buffId, entity } = data;
 
-    if (entity.type !== 'Player') return;
+    if (entity.type !== 'Proto_Player') return;
     if (!(buffId in KnownBuffMap)) return;
 
     const { isPartyBuff } = KnownBuffMap[buffId as keyof KnownBuffs];
@@ -48,7 +49,7 @@ export const createCombatLogHandlerSlice: StateCreator<
 
   appendHitLog: ({ data }) => {
     if (data.type !== 'Hit') return;
-    if (data.entity.type !== 'Player') return;
+    if (data.entity.type !== 'Proto_Player') return;
 
     const { addHitCountToCharacter } = get();
 
