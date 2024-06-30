@@ -311,10 +311,10 @@ export const KnownBuffMap = {
     buffName: 'YinlinR4',
     isPartyBuff: false,
   },
-  '2002201701': {
+  '2002201712': {
     buffType: 'CharacterOutro',
     buffName: 'YinlinOutro',
-    isPartyBuff: true,
+    isPartyBuff: false,
   },
   // Yangyang
   '1402802002': {
@@ -419,7 +419,6 @@ export const KnownBuffMap = {
     buffName: 'JinhsiOutro',
     isPartyBuff: true,
   },
-
   '1304001002': {
     buffType: 'CharacterPassive',
     buffName: 'Incarnation',
@@ -439,6 +438,28 @@ export const KnownBuffMap = {
     buffType: 'CharacterResonance',
     buffName: 'JinhsiR4',
     isPartyBuff: true,
+  },
+
+  // Changli
+  '1205301007': {
+    buffType: 'CharacterPassive',
+    buffName: 'SecretStrategist',
+    isPartyBuff: false,
+  },
+  '1205900210': {
+    buffType: 'CharacterResonance',
+    buffName: 'ChangliR2',
+    isPartyBuff: false,
+  },
+  '1205900410': {
+    buffType: 'CharacterResonance',
+    buffName: 'ChangliR4',
+    isPartyBuff: true,
+  },
+  '2002202012': {
+    buffType: 'CharacterOutro',
+    buffName: 'ChangliOutro',
+    isPartyBuff: false,
   },
 } as const satisfies Record<string, KnownBuff>;
 

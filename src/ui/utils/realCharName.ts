@@ -23,7 +23,7 @@ const KnownCharacterNameMap = {
   Nanzhu: 'Rover(Spectro)',
 
   Jinxi: 'Jinhsi',
-  Changli: 'Changli',
+  ChangLi: 'Changli',
 } as const satisfies Record<string, RealName>;
 
 type KnownCharacterNames = typeof KnownCharacterNameMap;
