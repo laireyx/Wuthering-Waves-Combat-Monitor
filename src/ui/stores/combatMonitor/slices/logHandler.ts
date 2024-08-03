@@ -1,9 +1,6 @@
 import { StateCreator } from 'zustand';
 
-import {
-  KnownBuffMap,
-  KnownBuffs,
-} from '@common/types/logReader/CombatInfo/buffs';
+import ProtoBuffMap from '@common/resources/prototype/buffs';
 
 import parseTimestamp from '../../../utils/parseTimestamp';
 
@@ -33,9 +30,9 @@ export const createCombatLogHandlerSlice: StateCreator<
     const { addOrRemove, buffId, entity } = data;
 
     if (entity.type !== 'Proto_Player') return;
-    if (!(buffId in KnownBuffMap)) return;
+    if (!(buffId in ProtoBuffMap)) return;
 
-    const { isPartyBuff } = KnownBuffMap[buffId as keyof KnownBuffs];
+    const { isPartyBuff } = ProtoBuffMap[buffId as keyof KnownBuffMap];
 
     if (isPartyBuff) {
       if (addOrRemove === 'add') applyBuffToParty(buffId, timestamp);

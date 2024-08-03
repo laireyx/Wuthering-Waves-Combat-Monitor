@@ -1,467 +1,447 @@
-interface KnownBuff {
-  buffType:
-    | 'EchoEffect'
-    | 'EchoSonata'
-    | 'CharacterSkill'
-    | 'CharacterOutro'
-    | 'CharacterPassive'
-    | 'CharacterResonance';
-  buffName: string;
-  isPartyBuff: boolean;
-}
-
-export const KnownBuffMap = {
+export default {
   '280001002': {
     buffType: 'EchoEffect',
-    buffName: 'ThunderingMephis',
+    buffName: '',
     isPartyBuff: false,
   },
   '280002002': {
     buffType: 'EchoEffect',
-    buffName: 'InfernoRider',
+    buffName: '',
     isPartyBuff: false,
   },
   '280003005': {
     buffType: 'EchoEffect',
-    buffName: 'BellBorne',
+    buffName: '',
     isPartyBuff: true,
   },
   '280004002': {
     buffType: 'EchoEffect',
-    buffName: 'TempestMephis',
+    buffName: '',
     isPartyBuff: false,
   },
   '280005002': {
     buffType: 'EchoEffect',
-    buffName: 'Crownless',
+    buffName: '',
     isPartyBuff: false,
   },
   '280006002': {
     buffType: 'EchoEffect',
-    buffName: 'FeilianBeringal',
+    buffName: '',
     isPartyBuff: false,
   },
   '280007002': {
     buffType: 'EchoEffect',
-    buffName: 'LampyMyriad',
+    buffName: '',
     isPartyBuff: false,
   },
   '280008002': {
     buffType: 'EchoEffect',
-    buffName: 'MourningAix',
+    buffName: '',
     isPartyBuff: false,
   },
   '280009007': {
     buffType: 'EchoEffect',
-    buffName: 'MechAbomination',
+    buffName: '',
     isPartyBuff: false,
   },
   '280010002': {
     buffType: 'EchoEffect',
-    buffName: 'ImpermHeron',
+    buffName: '',
     isPartyBuff: false,
   },
   '30000001002': {
     buffType: 'EchoSonata',
-    buffName: 'FreezingFrost',
+    buffName: '',
     isPartyBuff: false,
   },
   '30000002002': {
     buffType: 'EchoSonata',
-    buffName: 'MoltenRift',
+    buffName: '',
     isPartyBuff: false,
   },
   '30000003004': {
     buffType: 'EchoSonata',
-    buffName: 'VoidThunder',
+    buffName: '',
     isPartyBuff: false,
   },
   '30000004002': {
     buffType: 'EchoSonata',
-    buffName: 'SierraGale',
+    buffName: '',
     isPartyBuff: false,
   },
   '30000005002': {
     buffType: 'EchoSonata',
-    buffName: 'CelestialLight',
+    buffName: '',
     isPartyBuff: false,
   },
   '30000006002': {
     buffType: 'EchoSonata',
-    buffName: 'Sunsinking',
+    buffName: '',
     isPartyBuff: false,
   },
   '30000007002': {
     buffType: 'EchoSonata',
-    buffName: 'RejuGlow',
+    buffName: '',
     isPartyBuff: true,
   },
   '30000008002': {
     buffType: 'EchoSonata',
-    buffName: 'Moonlit',
+    buffName: '',
     isPartyBuff: false,
   },
   '30000009002': {
     buffType: 'EchoSonata',
-    buffName: 'LingeringTunes',
+    buffName: '',
     isPartyBuff: false,
   },
   // Verina
   '1503952001': {
     buffType: 'CharacterPassive',
-    buffName: 'GraceOfLife',
+    buffName: '',
     isPartyBuff: false,
   },
   '1503031011': {
     buffType: 'CharacterPassive',
-    buffName: 'GiftOfNature',
+    buffName: '',
     isPartyBuff: true,
   },
   '1503904001': {
     buffType: 'CharacterResonance',
-    buffName: 'VerinaR4',
+    buffName: '',
     isPartyBuff: true,
   },
   '2002201001': {
     buffType: 'CharacterOutro',
-    buffName: 'VerinaOutro-Heal',
+    buffName: '',
     isPartyBuff: false,
   },
   '2002201011': {
     buffType: 'CharacterOutro',
-    buffName: 'VerinaOutro-DMG',
+    buffName: '',
     isPartyBuff: true,
   },
   // Encore
   '1203904002': {
     buffType: 'CharacterResonance',
-    buffName: 'EncoreR4',
+    buffName: '',
     isPartyBuff: true,
   },
   '1203906002': {
     buffType: 'CharacterResonance',
-    buffName: 'EncoreR6',
+    buffName: '',
     isPartyBuff: false,
   },
   // Mortefi
   '1204080003': {
     buffType: 'CharacterPassive',
-    buffName: 'HarmonicControl',
+    buffName: '',
     isPartyBuff: false,
   },
   '1204090002': {
     buffType: 'CharacterPassive',
-    buffName: 'RhythmicVibrato',
+    buffName: '',
     isPartyBuff: false,
   },
   '1204030003': {
     buffType: 'CharacterResonance',
-    buffName: 'MortefiR3',
+    buffName: '',
     isPartyBuff: false,
   },
   '1204060002': {
     buffType: 'CharacterResonance',
-    buffName: 'MortefiR6',
+    buffName: '',
     isPartyBuff: true,
   },
   '2002200811': {
     buffType: 'CharacterOutro',
-    buffName: 'MortefiOutro',
+    buffName: '',
     isPartyBuff: false,
   },
   // Baizhi
   '1103411001': {
     buffType: 'CharacterPassive',
-    buffName: 'BaizhiEuphonia',
+    buffName: '',
     isPartyBuff: false,
   },
   '1103422001': {
     buffType: 'CharacterResonance',
-    buffName: 'BaizhiR2',
+    buffName: '',
     isPartyBuff: false,
   },
   '1103423000': {
     buffType: 'CharacterResonance',
-    buffName: 'BaizhiR3',
+    buffName: '',
     isPartyBuff: false,
   },
   '1103426000': {
     buffType: 'CharacterResonance',
-    buffName: 'BaizhiR6',
+    buffName: '',
     isPartyBuff: true,
   },
   // Danjin
   '1602300008': {
     buffType: 'CharacterPassive',
-    buffName: 'CrimsonLight',
+    buffName: '',
     isPartyBuff: false,
   },
   '1602300011': {
     buffType: 'CharacterPassive',
-    buffName: 'Overflow',
+    buffName: '',
     isPartyBuff: false,
   },
   '1602310502': {
     buffType: 'CharacterResonance',
-    buffName: 'DanjinR1',
+    buffName: '',
     isPartyBuff: false,
   },
   '1602310505': {
     buffType: 'CharacterResonance',
-    buffName: 'DanjinR4',
+    buffName: '',
     isPartyBuff: false,
   },
   '1602310605': {
     buffType: 'CharacterResonance',
-    buffName: 'DanjinR5',
+    buffName: '',
     isPartyBuff: false,
   },
   '1602310702': {
     buffType: 'CharacterResonance',
-    buffName: 'DanjinR6',
+    buffName: '',
     isPartyBuff: true,
   },
   '2002200511': {
     buffType: 'CharacterOutro',
-    buffName: 'DanjinOutro',
+    buffName: '',
     isPartyBuff: false,
   },
   // Sanhua
   '1102901002': {
     buffType: 'CharacterResonance',
-    buffName: 'SanhuaR1',
+    buffName: '',
     isPartyBuff: false,
   },
   '1102906002': {
     buffType: 'CharacterResonance',
-    buffName: 'SanhuaR6',
+    buffName: '',
     isPartyBuff: true,
   },
   '1102951002': {
     buffType: 'CharacterPassive',
-    buffName: 'Condensation',
+    buffName: '',
     isPartyBuff: false,
   },
   '1102952002': {
     buffType: 'CharacterPassive',
-    buffName: 'Avalanche',
+    buffName: '',
     isPartyBuff: false,
   },
   '2002200611': {
     buffType: 'CharacterOutro',
-    buffName: 'SanhuaOutro',
+    buffName: '',
     isPartyBuff: false,
-  },
-  '1102906001': {
-    buffType: 'CharacterResonance',
-    buffName: 'SanhuaR6',
-    isPartyBuff: true,
   },
   // Taoqi
   '1601951001': {
     buffType: 'CharacterPassive',
-    buffName: 'SteadfastProtection',
+    buffName: '',
     isPartyBuff: true,
   },
   '2002200701': {
     buffType: 'CharacterOutro',
-    buffName: 'TaoqiOutro',
+    buffName: '',
     isPartyBuff: false,
   },
   // Aalto
   '1403905002': {
     buffType: 'CharacterResonance',
-    buffName: 'AaltoR5',
+    buffName: '',
     isPartyBuff: false,
   },
   '2002200911': {
     buffType: 'CharacterOutro',
-    buffName: 'AaltoOutro',
+    buffName: '',
     isPartyBuff: false,
   },
   // Jianxin
   '1405010002': {
     buffType: 'CharacterResonance',
-    buffName: 'JianxinR1',
+    buffName: '',
     isPartyBuff: false,
   },
   '1405040002': {
     buffType: 'CharacterResonance',
-    buffName: 'JianxinR4',
+    buffName: '',
     isPartyBuff: false,
   },
   '2002201611': {
     buffType: 'CharacterOutro',
-    buffName: 'JianxinOutro',
+    buffName: '',
     isPartyBuff: false,
   },
   // Yinlin
   '1302911001': {
     buffType: 'CharacterPassive',
-    buffName: 'PainImmersion',
+    buffName: '',
     isPartyBuff: false,
   },
   '1302912011': {
     buffType: 'CharacterPassive',
-    buffName: 'DeadlyFocus',
+    buffName: '',
     isPartyBuff: false,
   },
   '1302904001': {
     buffType: 'CharacterResonance',
-    buffName: 'YinlinR4',
+    buffName: '',
     isPartyBuff: false,
   },
   '2002201712': {
     buffType: 'CharacterOutro',
-    buffName: 'YinlinOutro',
+    buffName: '',
     isPartyBuff: false,
   },
   // Yangyang
   '1402802002': {
     buffType: 'CharacterPassive',
-    buffName: 'LazulineMercy',
+    buffName: '',
     isPartyBuff: false,
   },
   '1402901002': {
     buffType: 'CharacterResonance',
-    buffName: 'YangyangR1',
+    buffName: '',
     isPartyBuff: false,
   },
   '1402906001': {
     buffType: 'CharacterResonance',
-    buffName: 'YangyangR6',
+    buffName: '',
     isPartyBuff: true,
   },
   // Chixia
   '1202951012': {
     buffType: 'CharacterPassive',
-    buffName: 'NumbinglySpicy!',
+    buffName: '',
     isPartyBuff: false,
   },
   '1202951026': {
     buffType: 'CharacterResonance',
-    buffName: 'ChixiaR5',
+    buffName: '',
     isPartyBuff: false,
   },
   '1202952002': {
     buffType: 'CharacterResonance',
-    buffName: 'ChixiaR6',
+    buffName: '',
     isPartyBuff: true,
   },
   // Yuanwu
   '1303700003': {
     buffType: 'CharacterResonance',
-    buffName: 'YuanwuR1',
+    buffName: '',
     isPartyBuff: false,
   },
   '1303700014': {
     buffType: 'CharacterResonance',
-    buffName: 'YuanwuR4',
+    buffName: '',
     isPartyBuff: true,
   },
   '1303700006': {
     buffType: 'CharacterResonance',
-    buffName: 'YuanwuR6',
+    buffName: '',
     isPartyBuff: true,
   },
   // Lingyang
   '1104101002': {
     buffType: 'CharacterPassive',
-    buffName: 'StridingLion',
+    buffName: '',
     isPartyBuff: false,
   },
   '1104101050': {
     buffType: 'CharacterPassive',
-    buffName: 'LionsVigor',
+    buffName: '',
     isPartyBuff: false,
   },
   '1104004002': {
     buffType: 'CharacterResonance',
-    buffName: 'LingyangR4',
+    buffName: '',
     isPartyBuff: true,
   },
   // Rover(Spectro)
   '1502901002': {
     buffType: 'CharacterResonance',
-    buffName: 'RoverSpectroR1',
+    buffName: '',
     isPartyBuff: false,
   },
   '1502904002': {
     buffType: 'CharacterResonance',
-    buffName: 'RoverSpectroR4',
+    buffName: '',
     isPartyBuff: true,
   },
   '1502906002': {
     buffType: 'CharacterResonance',
-    buffName: 'RoverSpectroR6',
+    buffName: '',
     isPartyBuff: true,
   },
   // Rover(Havoc)
   '1604001003': {
     buffType: 'CharacterPassive',
-    buffName: 'DarkSurge',
+    buffName: '',
     isPartyBuff: false,
   },
   '1604001004': {
     buffType: 'CharacterPassive',
-    buffName: 'DarkSurge',
+    buffName: '',
     isPartyBuff: false,
   },
   '1604007001': {
     buffType: 'CharacterResonance',
-    buffName: 'RoverHavocR4',
+    buffName: '',
     isPartyBuff: true,
   },
 
   // Jinhsi
   '1304710013': {
     buffType: 'CharacterOutro',
-    buffName: 'JinhsiOutro',
+    buffName: '',
     isPartyBuff: true,
   },
   '1304001002': {
     buffType: 'CharacterPassive',
-    buffName: 'Incarnation',
+    buffName: '',
     isPartyBuff: false,
   },
   '1304900102': {
     buffType: 'CharacterResonance',
-    buffName: 'JinhsiR1',
+    buffName: '',
     isPartyBuff: false,
   },
   '1304900302': {
     buffType: 'CharacterResonance',
-    buffName: 'JinhsiR3',
+    buffName: '',
     isPartyBuff: false,
   },
   '1304900410': {
     buffType: 'CharacterResonance',
-    buffName: 'JinhsiR4',
+    buffName: '',
     isPartyBuff: true,
   },
 
   // Changli
   '1205301007': {
     buffType: 'CharacterPassive',
-    buffName: 'SecretStrategist',
+    buffName: '',
     isPartyBuff: false,
   },
   '1205900210': {
     buffType: 'CharacterResonance',
-    buffName: 'ChangliR2',
+    buffName: '',
     isPartyBuff: false,
   },
   '1205900410': {
     buffType: 'CharacterResonance',
-    buffName: 'ChangliR4',
+    buffName: '',
     isPartyBuff: true,
   },
   '2002202012': {
     buffType: 'CharacterOutro',
-    buffName: 'ChangliOutro',
+    buffName: '',
     isPartyBuff: false,
   },
-} as const satisfies Record<string, KnownBuff>;
-
-export type KnownBuffs = typeof KnownBuffMap;
-export const KnownBuffDescriptions = Object.values(KnownBuffMap);
+} satisfies KnownBuffMap;

@@ -1,4 +1,3 @@
-import { KnownBuffs } from './buffs';
 import { ClientLogImpl } from '../ClientLog';
 import { Entity } from '../Entity';
 
@@ -14,7 +13,7 @@ export interface CombatInfoLogDataBuff {
 
   entity: Entity;
   addOrRemove: 'add' | 'remove';
-  buffId: keyof KnownBuffs | (string & Record<never, never>);
+  buffId: string;
   buffCreatorId?: number;
   buffTargetId: number;
   buffDescription?: string;

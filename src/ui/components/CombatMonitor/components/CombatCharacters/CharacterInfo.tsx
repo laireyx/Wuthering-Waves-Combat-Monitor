@@ -1,10 +1,6 @@
-import {
-  KnownBuffMap,
-  KnownBuffs,
-} from '@common/types/logReader/CombatInfo/buffs';
-
+import useRealCharacterName from '../../../../hooks/useRealCharacterName';
+import { useResource } from '../../../../hooks/useResource';
 import useCombatMonitorStore from '../../../../stores/combatMonitor';
-import realCharName from '../../../../utils/realCharName';
 import Foldable from '../Foldable';
 import Indicator from '../Indicator';
 import IndicatorCaption from '../Indicator/Caption';
@@ -16,26 +12,31 @@ interface CharacterInfoProps {
 }
 
 export default function CharacterInfo({ characterName }: CharacterInfoProps) {
+  const buffs = useResource<KnownBuffs>('buffs');
+  const strings = useResource<ApplicationStrings>('strings');
+
   const { characters, fightDuration, getActualBuffUptimeOfCharacter } =
     useCombatMonitorStore();
 
+  const realCharacterName = useRealCharacterName(characterName);
+
   const { buffRecord, hitCount, qteCount } = characters[characterName];
-  const buffIds = Object.keys(buffRecord) as (keyof KnownBuffs)[];
+  const buffIds = Object.keys(buffRecord);
 
   return (
-    <Foldable title={realCharName(characterName)}>
+    <Foldable title={realCharacterName}>
       <div className={characterDetailsStyle}>
         <Indicator>
-          <IndicatorCaption>Hit Count</IndicatorCaption>
+          <IndicatorCaption>{strings.hitCountLabel}</IndicatorCaption>
           {hitCount}
         </Indicator>
         <Indicator>
-          <IndicatorCaption>QTE Count</IndicatorCaption>
+          <IndicatorCaption>{strings.qteCountLabel}</IndicatorCaption>
           {qteCount}
         </Indicator>
         {buffIds.map((buffId) => (
           <Indicator key={buffId}>
-            <IndicatorCaption>{KnownBuffMap[buffId].buffName}</IndicatorCaption>
+            <IndicatorCaption>{buffs[buffId].buffName}</IndicatorCaption>
             {Math.round(
               (getActualBuffUptimeOfCharacter(characterName, buffId) /
                 fightDuration()) *

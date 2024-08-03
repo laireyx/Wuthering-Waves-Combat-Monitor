@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import Main from './components/Main';
 import Preferences from './components/Preferences';
 import TitleBar from './components/TitleBar';
@@ -8,11 +10,11 @@ export default function App() {
   useDefaultGamePath();
 
   return (
-    <>
+    <Suspense fallback={<>Loading...</>}>
       <TitleBar />
       <Main />
       <Preferences />
       <WarningDialog />
-    </>
+    </Suspense>
   );
 }

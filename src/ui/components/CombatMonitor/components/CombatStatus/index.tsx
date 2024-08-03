@@ -1,3 +1,4 @@
+import { useResource } from '../../../../hooks/useResource';
 import useCombatMonitorStore from '../../../../stores/combatMonitor';
 import fillZero from '../../../../utils/fillZero';
 import Indicator from '../Indicator';
@@ -10,6 +11,8 @@ import {
 } from './index.css';
 
 export default function CombatStatus() {
+  const strings = useResource<ApplicationStrings>('strings');
+
   const { status, inFight, fightDuration, staggerCount } =
     useCombatMonitorStore();
 
@@ -18,22 +21,23 @@ export default function CombatStatus() {
 
   return (
     <>
-      <p className={combatStatusTitleStyle}>Combat Status</p>
+      <p className={combatStatusTitleStyle}>{strings.combatStatusTitle}</p>
       <div className={combatStatusStyle}>
         <Indicator className={inFight() ? fightStatusInFightStyle : ''}>
-          <IndicatorCaption>Status</IndicatorCaption>
+          <IndicatorCaption>{strings.combatStatusLabel}</IndicatorCaption>
           {status === 'inFight'
-            ? 'Fight'
+            ? strings.combatStatusInFight
             : status === 'inFightPaused'
-              ? 'Fight-Paused'
-              : 'Idle'}
+              ? strings.combatStatusInFightPaused
+              : strings.combatStatusIdle}
         </Indicator>
         <Indicator>
-          <IndicatorCaption>Duration</IndicatorCaption> {durationStr}
+          <IndicatorCaption>{strings.combatDurationLabel}</IndicatorCaption>{' '}
+          {durationStr}
         </Indicator>
 
         <Indicator>
-          <IndicatorCaption>Stagger Count</IndicatorCaption>
+          <IndicatorCaption>{strings.combatStaggerLabel}</IndicatorCaption>
           {staggerCount > 0 ? staggerCount : '-'}
         </Indicator>
       </div>
