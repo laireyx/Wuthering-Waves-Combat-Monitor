@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import {
   foldButtonStyle,
@@ -13,7 +13,7 @@ interface FoldableButtonProps {
 }
 
 type FoldableProps = React.PropsWithChildren<{
-  title: string;
+  title: ReactNode;
 }>;
 
 function FoldableButton({ folded }: FoldableButtonProps) {

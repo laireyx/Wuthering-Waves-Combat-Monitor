@@ -15,17 +15,16 @@ export const combatCharactersStyle = style({
 
 export const characterInfoStyle = style({});
 
+export const characterIconStyle = style({
+  width: '36px',
+});
+
 export const characterNameStyle = style({
-  flex: '1 0',
-
   display: 'flex',
-  justifyContent: 'space-between',
+  alignItems: 'flex-end',
+  gap: '4px',
 
-  padding: '2px 4px',
-  borderRadius: '4px',
-
-  background: 'black',
-  color: 'white',
+  padding: '4px',
 });
 
 export const characterDetailsStyle = style({

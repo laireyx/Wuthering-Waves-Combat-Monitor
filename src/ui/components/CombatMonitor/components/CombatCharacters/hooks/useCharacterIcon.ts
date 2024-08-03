@@ -1,6 +1,6 @@
 import ProtoCharacterNameMap from '@common/resources/prototype/characters';
 
-import { useResource } from './useResource';
+import charIcons from '../../../../../assets/charIcons';
 
 function isValidMatchResult(
   matchResult: string,
@@ -8,11 +8,9 @@ function isValidMatchResult(
   return matchResult in ProtoCharacterNameMap;
 }
 
-export default function useRealCharacterName(characterName: string) {
-  const characterNames = useResource<KnownCharacterNameMap>('characters');
-
+export default function useCharacterIcon(characterName: string) {
   const matchResult = characterName.match(/BP_(.*?)_/)?.[1] ?? characterName;
   if (!isValidMatchResult(matchResult)) return 'N/A';
 
-  return characterNames[matchResult];
+  return charIcons[matchResult];
 }

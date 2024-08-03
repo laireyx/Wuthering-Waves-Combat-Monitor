@@ -1,11 +1,16 @@
-import useRealCharacterName from '../../../../hooks/useRealCharacterName';
+import useCharacterIcon from './hooks/useCharacterIcon';
+import useRealCharacterName from './hooks/useRealCharacterName';
 import { useResource } from '../../../../hooks/useResource';
 import useCombatMonitorStore from '../../../../stores/combatMonitor';
 import Foldable from '../Foldable';
 import Indicator from '../Indicator';
 import IndicatorCaption from '../Indicator/Caption';
 
-import { characterDetailsStyle } from './index.css';
+import {
+  characterDetailsStyle,
+  characterIconStyle,
+  characterNameStyle,
+} from './index.css';
 
 interface CharacterInfoProps {
   characterName: string;
@@ -18,13 +23,23 @@ export default function CharacterInfo({ characterName }: CharacterInfoProps) {
   const { characters, fightDuration, getActualBuffUptimeOfCharacter } =
     useCombatMonitorStore();
 
+  const characterIcon = useCharacterIcon(characterName);
   const realCharacterName = useRealCharacterName(characterName);
 
   const { buffRecord, hitCount, qteCount } = characters[characterName];
   const buffIds = Object.keys(buffRecord);
 
   return (
-    <Foldable title={realCharacterName}>
+    <Foldable
+      title={
+        <>
+          <span className={characterNameStyle}>
+            <img src={characterIcon} className={characterIconStyle} />
+            {realCharacterName}
+          </span>
+        </>
+      }
+    >
       <div className={characterDetailsStyle}>
         <Indicator>
           <IndicatorCaption>{strings.hitCountLabel}</IndicatorCaption>
