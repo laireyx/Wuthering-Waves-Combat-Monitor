@@ -1,7 +1,7 @@
 {
   "name": "wwdps",
   "productName": "wwdps",
-  "version": "1.1.0.1",
+  "version": "1.2.0.0",
   "description": "Wuthering Waves Combat Monitor",
   "main": ".vite/build/main.js",
   "scripts": {
