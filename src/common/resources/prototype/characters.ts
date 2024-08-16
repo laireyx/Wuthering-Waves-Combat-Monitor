@@ -22,4 +22,5 @@ export default {
 
   Jinxi: '',
   ChangLi: '',
+  Zhezhi: '',
 };

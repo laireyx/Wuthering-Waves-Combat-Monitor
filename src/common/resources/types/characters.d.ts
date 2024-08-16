@@ -22,4 +22,5 @@ interface KnownCharacterNameMap {
 
   Jinxi: string;
   ChangLi: string;
+  Zhezhi: string;
 }

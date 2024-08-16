@@ -444,4 +444,31 @@ export default {
     buffName: '끊이지 않는 전법',
     isPartyBuff: false,
   },
+
+  // Zhezhi
+  '1105001033': {
+    buffType: 'CharacterPassive',
+    buffName: '일필휘지',
+    isPartyBuff: false,
+  },
+  '1105009220': {
+    buffType: 'CharacterResonance',
+    buffName: '골법용필',
+    isPartyBuff: false,
+  },
+  '1105009310': {
+    buffType: 'CharacterResonance',
+    buffName: '응물상형',
+    isPartyBuff: false,
+  },
+  '1105009410': {
+    buffType: 'CharacterResonance',
+    buffName: '수류부채',
+    isPartyBuff: true,
+  },
+  '2002202112': {
+    buffType: 'CharacterOutro',
+    buffName: '글레이징 기법',
+    isPartyBuff: false,
+  },
 } satisfies KnownBuffMap;

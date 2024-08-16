@@ -444,4 +444,31 @@ export default {
     buffName: '',
     isPartyBuff: false,
   },
+
+  // Zhezhi
+  '1105001033': {
+    buffType: 'CharacterPassive',
+    buffName: '',
+    isPartyBuff: false,
+  },
+  '1105009220': {
+    buffType: 'CharacterResonance',
+    buffName: '',
+    isPartyBuff: false,
+  },
+  '1105009310': {
+    buffType: 'CharacterResonance',
+    buffName: '',
+    isPartyBuff: false,
+  },
+  '1105009410': {
+    buffType: 'CharacterResonance',
+    buffName: '',
+    isPartyBuff: true,
+  },
+  '2002202112': {
+    buffType: 'CharacterOutro',
+    buffName: '',
+    isPartyBuff: false,
+  },
 } satisfies KnownBuffMap;

@@ -17,6 +17,7 @@ import { default as Taohua } from './Taohua.png';
 import { default as Yangyang } from './Yangyang.png';
 import { default as Yinlin } from './Yinlin.png';
 import { default as Yuanwu } from './Yuanwu.png';
+import { default as Zhezhi } from './Zhezhi.png';
 
 export default {
   Anke,
@@ -37,6 +38,7 @@ export default {
   Yangyang,
   Yinlin,
   Yuanwu,
+  Zhezhi,
 
   DarkNvzhu: Rover,
   Nvzhu: Rover,

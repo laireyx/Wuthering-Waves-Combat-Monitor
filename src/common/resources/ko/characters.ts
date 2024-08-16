@@ -22,4 +22,5 @@ export default {
 
   Jinxi: '금희',
   ChangLi: '장리',
+  Zhezhi: '절지',
 } satisfies KnownCharacterNameMap;

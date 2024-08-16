@@ -456,6 +456,33 @@ interface KnownBuffMap {
     buffName: string;
     isPartyBuff: false;
   };
+
+  // Zhezhi
+  '1105001033': {
+    buffType: 'CharacterPassive';
+    buffName: string;
+    isPartyBuff: false;
+  };
+  '1105009220': {
+    buffType: 'CharacterResonance';
+    buffName: string;
+    isPartyBuff: false;
+  };
+  '1105009310': {
+    buffType: 'CharacterResonance';
+    buffName: string;
+    isPartyBuff: false;
+  };
+  '1105009410': {
+    buffType: 'CharacterResonance';
+    buffName: string;
+    isPartyBuff: true;
+  };
+  '2002202112': {
+    buffType: 'CharacterOutro';
+    buffName: string;
+    isPartyBuff: false;
+  };
 }
 
 type KnownBuffs = Record<string, KnownBuff>;
